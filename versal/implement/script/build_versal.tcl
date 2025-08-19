@@ -40,6 +40,9 @@ open_project ${prj_dir}/${prj_name}.xpr
 add_files -norecurse ../rtl/sc-obc-v1-versal/sc_obc_v1_versal.v
 set_property top sc_obc_v1_versal [current_fileset]
 
+# Read IO constraints
+add_files -norecurse ./constraints/sc-obc-v1-versal-io-basic.xdc
+
 # Close Project
 close_project
 exit
