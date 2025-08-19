@@ -43,6 +43,24 @@ set_property top sc_obc_v1_versal [current_fileset]
 # Read IO constraints
 add_files -norecurse ./constraints/sc-obc-v1-versal-io-basic.xdc
 
+# Place and Route TOP Module
+#---------------------------
+# Synthesis
+launch_runs synth_1 -jobs ${cpus}
+wait_on_run synth_1
+
+# Place and Route
+launch_runs impl_1 -jobs ${cpus}
+wait_on_run impl_1
+
+# Write bitstream file
+launch_runs impl_1 -to_step write_bitstream -jobs ${cpus}
+wait_on_run impl_1
+
+# Export xsa
+set_property platform.design_intent.embedded {true} [current_project]
+write_hw_platform -hw -include_bit -force -file ${prj_dir}/${prj_name}.xsa
+
 # Close Project
 close_project
 exit

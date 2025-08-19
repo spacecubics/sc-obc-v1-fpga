@@ -103,6 +103,13 @@ assign_bd_address -target_address_space /versal_ps/PMC_NOC_AXI_0 [get_bd_addr_se
 # Platform Setup
 set_property PFM.CLOCK {pl0_ref_clk {id "0" is_default "true" proc_sys_reset "/psr_sync_pl0_ref" status "fixed" freq_hz "99999001"}} [get_bd_cells /versal_ps]
 
+set_property platform.vendor {spacecubics} [current_project]
+set_property platform.board_id ${prj_name} [current_project]
+set_property platform.name ${prj_name} [current_project]
+set_property platform.version {1.0} [current_project]
+set_property pfm_name {spacecubics:${prj_name}:${prj_name}:1.0} [get_files -all ${prj_dir}/${prj_name}.srcs/${file_set}/bd/${bd_name}/${bd_name}.bd]
+set_property platform.uses_pr {false} [current_project]
+
 # Save block design
 save_bd_design
 
