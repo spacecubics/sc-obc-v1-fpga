@@ -79,6 +79,20 @@ set_property -dict [list CONFIG.CONNECTIONS {MC_3 {read_bw {100} write_bw {100} 
 set DDR4 [create_bd_intf_port -mode Master -vlnv xilinx.com:interface:ddr4_rtl:1.0 DDR4]
 connect_bd_intf_net [get_bd_intf_ports DDR4] [get_bd_intf_pins versal_noc/CH0_DDR4_0]
 
+# DDR4 Address Setting
+assign_bd_address -target_address_space /versal_ps/FPD_CCI_NOC_0 [get_bd_addr_segs versal_noc/S00_AXI/C0_DDR_LOW0] -force
+assign_bd_address -target_address_space /versal_ps/FPD_CCI_NOC_0 [get_bd_addr_segs versal_noc/S00_AXI/C0_DDR_LOW1] -force
+assign_bd_address -target_address_space /versal_ps/FPD_CCI_NOC_1 [get_bd_addr_segs versal_noc/S01_AXI/C0_DDR_LOW0] -force
+assign_bd_address -target_address_space /versal_ps/FPD_CCI_NOC_1 [get_bd_addr_segs versal_noc/S01_AXI/C0_DDR_LOW1] -force
+assign_bd_address -target_address_space /versal_ps/FPD_CCI_NOC_2 [get_bd_addr_segs versal_noc/S02_AXI/C1_DDR_LOW0] -force
+assign_bd_address -target_address_space /versal_ps/FPD_CCI_NOC_2 [get_bd_addr_segs versal_noc/S02_AXI/C1_DDR_LOW1] -force
+assign_bd_address -target_address_space /versal_ps/FPD_CCI_NOC_3 [get_bd_addr_segs versal_noc/S03_AXI/C1_DDR_LOW0] -force
+assign_bd_address -target_address_space /versal_ps/FPD_CCI_NOC_3 [get_bd_addr_segs versal_noc/S03_AXI/C1_DDR_LOW1] -force
+assign_bd_address -target_address_space /versal_ps/LPD_AXI_NOC_0 [get_bd_addr_segs versal_noc/S04_AXI/C2_DDR_LOW1] -force
+assign_bd_address -target_address_space /versal_ps/LPD_AXI_NOC_0 [get_bd_addr_segs versal_noc/S04_AXI/C2_DDR_LOW0] -force
+assign_bd_address -target_address_space /versal_ps/PMC_NOC_AXI_0 [get_bd_addr_segs versal_noc/S05_AXI/C3_DDR_LOW0] -force
+assign_bd_address -target_address_space /versal_ps/PMC_NOC_AXI_0 [get_bd_addr_segs versal_noc/S05_AXI/C3_DDR_LOW1] -force
+
 # Save block design
 save_bd_design
 
