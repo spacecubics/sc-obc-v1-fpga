@@ -40,7 +40,7 @@ CF           := vivado*.jou vivado*.log vivado*.str hls.list
 CF           += $(PROJECT_DIR)
 # ---------------------------------------------------------------------------
 PHONY := all
-all: create_versal_ps_bd
+all: build_versal
 
 # Synthesis AMD IP
 #-------------------
@@ -57,11 +57,14 @@ $(foreach ips, $(IP_LIST), $(eval $(call DEFINE_BUILD_IP,$(ips))))
 PHONY += create_versal_ps_bd
 create_versal_ps_bd: $(PROJECT_DIR)/$(PROJECT_NAME).srcs/*/bd/versal_ps_bd/versal_ps_bd.bd
 $(PROJECT_DIR)/$(PROJECT_NAME).srcs/*/bd/versal_ps_bd/versal_ps_bd.bd:
-ifeq ("$(wildcard $(PROJECT_DIR))", "")
 	$(VIVADOTCL) -source script/create_project.tcl -tclargs $(PROJECT_NAME) $(PROJECT_DIR)
 	echo "*" > project/.gitignore
-endif
 	$(VIVADOTCL) -source script/create_versal_ps_bd.tcl -tclargs $(PROJECT_NAME) $(PROJECT_DIR)
+
+PHONY += build_versal
+build_versal: sc_obc_v1_versal.xsa
+sc_obc_v1_versal.xsa: $(PROJECT_DIR)/$(PROJECT_NAME).srcs/*/bd/versal_ps_bd/versal_ps_bd.bd
+	$(VIVADOTCL) -source script/build_versal.tcl -tclargs $(PROJECT_NAME) $(PROJECT_DIR)
 
 # for Debug
 #-------------------
