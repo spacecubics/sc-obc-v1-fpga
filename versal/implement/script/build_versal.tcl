@@ -36,6 +36,10 @@ set prj_dir  [lindex ${arglist} 1]
 # Open Project
 open_project ${prj_dir}/${prj_name}.xpr
 
+# Read fpga top layer
+add_files -norecurse ../rtl/sc-obc-v1-versal/sc_obc_v1_versal.v
+set_property top sc_obc_v1_versal [current_fileset]
+
 # Close Project
 close_project
 exit
