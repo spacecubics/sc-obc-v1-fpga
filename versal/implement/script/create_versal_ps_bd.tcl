@@ -107,7 +107,7 @@ set_property platform.vendor {spacecubics} [current_project]
 set_property platform.board_id ${prj_name} [current_project]
 set_property platform.name ${prj_name} [current_project]
 set_property platform.version {1.0} [current_project]
-set_property pfm_name {spacecubics:${prj_name}:${prj_name}:1.0} [get_files -all ${prj_dir}/${prj_name}.srcs/${file_set}/bd/${bd_name}/${bd_name}.bd]
+set_property pfm_name "spacecubics:${prj_name}:${prj_name}:1.0" [get_files -all ${prj_dir}/${prj_name}.srcs/${file_set}/bd/${bd_name}/${bd_name}.bd]
 set_property platform.uses_pr {false} [current_project]
 
 # Save block design
