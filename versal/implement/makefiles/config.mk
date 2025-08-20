@@ -7,9 +7,9 @@
 
 # AMD Vivado Settings
 XILINX_HOME        := /opt/Xilinx
-XILINX_VER         := 2024.2
-export XILINX_VIVADO := $(XILINX_HOME)/Vivado/$(XILINX_VER)
-export PATH := $(XILINX_HOME)/Vivado/$(XILINX_VER)/bin:$(PATH)
+XILINX_VER         := 2025.1
+export XILINX_VIVADO := $(XILINX_HOME)/$(XILINX_VER)/Vivado
+export PATH := $(XILINX_HOME)/$(XILINX_VER)/Vivado/bin:$(PATH)
 
 # FPGA device param
 DEVICE_PART        := xcve2302-sfva784-1MP-i-S
