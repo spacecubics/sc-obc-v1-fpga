@@ -59,7 +59,7 @@ wait_on_run impl_1
 
 # Export xsa
 set_property platform.design_intent.embedded {true} [current_project]
-write_hw_platform -hw -include_bit -force -file ${prj_dir}/${prj_name}.xsa
+write_hw_platform -fixed -include_bit -force -file ${prj_dir}/${prj_name}.xsa
 
 # Close Project
 close_project

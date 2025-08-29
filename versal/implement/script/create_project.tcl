@@ -39,7 +39,7 @@ if {[info exists xil_board]} {
     set_property board_part ${xil_board} [current_project]
 }
 
-set_property platform.extensible true [current_project]
+set_property platform.extensible false [current_project]
 
 # Close Project
 close_project
