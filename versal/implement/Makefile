@@ -22,9 +22,6 @@
 PROJECT_NAME := sc_obc_v1_versal
 PROJECT_DIR  := project
 
-# AMD and FPGA setting
-include makefiles/config.mk
-
 # Command Variables
 VIVADOGUI    := vivado
 VIVADOTCL    := vivado -mode batch
