@@ -1,5 +1,5 @@
 #-----------------------------------------------------------------------------
-# Copyright 2025 Space Cubics, LLC
+# Copyright 2025 Space Cubics Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,34 +13,39 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #-----------------------------------------------------------------------------
-# Create Project
+# Space Cubics High reliability/High performance On Board Computer
+#  SC-OBC module V1
+#  Versal implement script
 #-----------------------------------------------------------------------------
 
-source script/set_env.tcl
+# Command
+CD    := cd
+CP    := cp -rf
+MKDIR := mkdir -p
+RM    := rm -rf
 
-# Check argument
-if {${argc} < 2} {
-    puts "Not enough arguments."
-    puts " vivado -mode tcl -source (script) -tclargs (Project Name) (Project Directory)
-    exit 1
-}
-set arglist ${argv}
+# Directory
+WORK_DIR      := work
+IMPLEMENT_DIR := implement
+MAKEFILE_DIR  := makefiles
 
-# Set project
-set prj_name [lindex ${arglist} 0]
-set prj_dir  [lindex ${arglist} 1]
+PHONY := all
+all: implement
 
-# Create Project
-create_project ${prj_name} ${prj_dir}
-if {[info exists xil_part]} {
-    set_property part ${xil_part} [current_project]
-}
-if {[info exists xil_board]} {
-    set_property board_part ${xil_board} [current_project]
-}
+$(WORK_DIR)/$(IMPLEMENT_DIR):
+	$(MKDIR) $(WORK_DIR)/$(IMPLEMENT_DIR)
+	echo "*" > $(WORK_DIR)/$(IMPLEMENT_DIR)/.gitignore
+	$(CP) script/implement/Makefile $(WORK_DIR)/$(IMPLEMENT_DIR)/Makefile
 
-set_property platform.extensible false [current_project]
+PHONY += implement
+implement: $(WORK_DIR)/$(IMPLEMENT_DIR)
+	$(CD) $(WORK_DIR)/$(IMPLEMENT_DIR) && make ROOT_DIR=$(CURDIR)
 
-# Close Project
-close_project
-exit
+PHNY += clean clean_implement
+clean:
+	$(RM) $(WORK_DIR)
+
+clean_implement:
+	$(RM) $(WORK_DIR)/$(IMPLEMENT_DIR)
+
+.PHONY: $(PHONY)

@@ -18,30 +18,26 @@
 #  Build Versal script
 #-----------------------------------------------------------------------------
 
-source script/set_env.tcl
-source script/vivado_basic_func.tcl
-
 # Check argument
 if {${argc} < 2} {
     puts "Not enough arguments."
-    puts " vivado -mode tcl -source (script) -tclargs (Project Name) (Project Directory)
+    puts " vivado -mode tcl -source (script) -tclargs (Root Directory) (Project Name) (Project Directory)
     exit 1
 }
 set arglist ${argv}
 
 # Set Project
-set prj_name [lindex ${arglist} 0]
-set prj_dir  [lindex ${arglist} 1]
+set root_dir [lindex ${arglist} 0]
+set prj_name [lindex ${arglist} 1]
+set prj_dir  [lindex ${arglist} 2]
+
+source ${root_dir}/script/implement/set_env.tcl
 
 # Open Project
 open_project ${prj_dir}/${prj_name}.xpr
 
-# Read fpga top layer
-add_files -norecurse ../rtl/sc-obc-v1-versal/sc_obc_v1_versal.v
-set_property top sc_obc_v1_versal [current_fileset]
-
 # Read IO constraints
-add_files -norecurse ./constraints/sc-obc-v1-versal-io-basic.xdc
+add_files -norecurse ${root_dir}/constraints/sc-obc-v1-versal-io-basic.xdc
 
 # Place and Route TOP Module
 #---------------------------
@@ -60,7 +56,7 @@ wait_on_run impl_1
 # Export xsa
 set_property platform.design_intent.embedded {true} [current_project]
 write_hw_platform -fixed -include_bit -force -file ${prj_dir}/${prj_name}.xsa
-
+exec cp ${prj_dir}/${prj_name}.runs/impl_1/${prj_name}.pdi ${prj_dir}
 # Close Project
 close_project
 exit

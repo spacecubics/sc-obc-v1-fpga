@@ -17,18 +17,14 @@
 #-----------------------------------------------------------------------------
 
 # AMD IP directory
-set ip_dir         ../ip
+set ip_dir         ${root_dir}/ip
 
 # RTL directory
-set rtldir         ../rtl
-set veriloglist    ../rtl/rtl.list
+set rtl_dir        ${root_dir}/rtl
+set rtl_list       ${rtl_dir}/rtl.list
 
 # Report directory
 set rptdit         ./report
-
-# HLS directory
-set hlsdir         ../../vitis-hls-vision/
-set hlsmoduledir   sol/impl/verilog
 
 # Device Parameter
 set xil_part       xcve2302-sfva784-1MP-i-S

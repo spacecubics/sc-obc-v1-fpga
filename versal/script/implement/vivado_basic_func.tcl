@@ -20,16 +20,16 @@ proc add_bd_cells { ip_dir ip_name config module } {
     set_property -dict ${ipparam} [get_bd_cells ${module}]
 }
 
-proc read_rtl_from_rtllist {rtllist} {
+proc read_rtl_from_rtllist {rtldir rtllist} {
     set fid [open ${rtllist} r]
     while {[gets $fid rtlpath] >= 0} {
         set ext [file extension $rtlpath]
         if {$ext == ".sv"} {
-            read_verilog -sv ${rtlpath}
+            read_verilog -sv ${rtldir}/${rtlpath}
         } elseif {$ext == ".v"} {
-            read_verilog ${rtlpath}
+            read_verilog ${rtldir}/${rtlpath}
         } elseif {$ext == ".vhd"} {
-        read_vhdl -library xil_defaultlib  ${rtlpath}
+            read_vhdl -library xil_defaultlib  ${rtldir}/${rtlpath}
         }
     }
 }

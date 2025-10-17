@@ -18,20 +18,21 @@
 #  Create Versal Processor System Block Design
 #-----------------------------------------------------------------------------
 
-source script/set_env.tcl
-source script/vivado_basic_func.tcl
-
 # Check argument
 if {${argc} < 2} {
     puts "Not enough arguments."
-    puts " vivado -mode tcl -source (script) -tclargs (Project Name) (Project Directory)
+    puts " vivado -mode tcl -source (script) -tclargs (Root Directory) (Project Name) (Project Directory)
     exit 1
 }
 set arglist ${argv}
 
 # Set Project
-set prj_name [lindex ${arglist} 0]
-set prj_dir  [lindex ${arglist} 1]
+set root_dir [lindex ${arglist} 0]
+set prj_name [lindex ${arglist} 1]
+set prj_dir  [lindex ${arglist} 2]
+
+source ${root_dir}/script/implement/set_env.tcl
+source ${root_dir}/script/implement/vivado_basic_func.tcl
 
 # Open Project
 open_project ${prj_dir}/${prj_name}.xpr
@@ -119,6 +120,10 @@ export_ip_user_files -of_objects [get_files ${prj_dir}/${prj_name}.srcs/${file_s
 set ip_run [create_ip_run [get_files -of_objects [get_fileset ${file_set}] ${prj_dir}/${prj_name}.srcs/${file_set}/bd/${bd_name}/${bd_name}.bd]]
 launch_runs ${ip_run} -jobs ${cpus}
 wait_on_run ${ip_run}
+
+# Load RTL source code
+read_rtl_from_rtllist ${rtl_dir} ${rtl_list}
+set_property top ${prj_name} [current_fileset]
 
 # Close Project
 close_project

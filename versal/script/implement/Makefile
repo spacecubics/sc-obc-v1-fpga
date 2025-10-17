@@ -22,46 +22,39 @@
 PROJECT_NAME := sc_obc_v1_versal
 PROJECT_DIR  := project
 
+# Directorys
+ROOT_DIR     ?= ../..
+SCRIPT_DIR   := $(ROOT_DIR)/script/implement
+LOG_DIR      := ./log
+
 # Command Variables
 VIVADOGUI    := vivado
 VIVADOTCL    := vivado -mode batch
 RM           := rm -rf
-CP           := cp -rf
-
-# AMD IP Variables
-IP_ROOT_DIR  := ../ip
-IP_DIR       := ip
+MKDIR        := mkdir -p
 
 # Clean File
-CF           := vivado*.jou vivado*.log vivado*.str hls.list
+CF           := $(LOG_DIR)
 CF           += $(PROJECT_DIR)
 # ---------------------------------------------------------------------------
 PHONY := all
 all: build_versal
 
-# Synthesis AMD IP
-#-------------------
-$(IP_DIR):
-	$(CP) $(IP_ROOT_DIR) ./$(IP_DIR)
-
-define DEFINE_BUILD_IP
-$(IP_DIR)/$(1).dcp: $(IP_DIR)
-	cd $(IP_DIR)/$(dir $(1)) && make MODULE=$(notdir $(1)) VIVADO_PATH=$(VIVADO_PATH)
-endef
-$(foreach ips, $(IP_LIST), $(eval $(call DEFINE_BUILD_IP,$(ips))))
-
 # Create Zynq PS Block Design target
 PHONY += create_versal_ps_bd
 create_versal_ps_bd: $(PROJECT_DIR)/$(PROJECT_NAME).srcs/*/bd/versal_ps_bd/versal_ps_bd.bd
 $(PROJECT_DIR)/$(PROJECT_NAME).srcs/*/bd/versal_ps_bd/versal_ps_bd.bd:
-	$(VIVADOTCL) -source script/create_project.tcl -tclargs $(PROJECT_NAME) $(PROJECT_DIR)
-	echo "*" > project/.gitignore
-	$(VIVADOTCL) -source script/create_versal_ps_bd.tcl -tclargs $(PROJECT_NAME) $(PROJECT_DIR)
+	$(MKDIR) $(LOG_DIR) && echo "*" > $(LOG_DIR)/.gitignore
+	$(VIVADOTCL) -log $(LOG_DIR)/create_project.log -journal $(LOG_DIR)/create_project.jou \
+		-source $(SCRIPT_DIR)/create_project.tcl -tclargs $(ROOT_DIR) $(PROJECT_NAME) $(PROJECT_DIR) && echo "*" > $(PROJECT_DIR)/.gitignore
+	$(VIVADOTCL) -log $(LOG_DIR)/create_versal_base_system.log -journal $(LOG_DIR)/create_versal_base_system.jou \
+		-source $(SCRIPT_DIR)/create_versal_base_system.tcl -tclargs $(ROOT_DIR) $(PROJECT_NAME) $(PROJECT_DIR)
 
 PHONY += build_versal
 build_versal: sc_obc_v1_versal.xsa
 sc_obc_v1_versal.xsa: $(PROJECT_DIR)/$(PROJECT_NAME).srcs/*/bd/versal_ps_bd/versal_ps_bd.bd
-	$(VIVADOTCL) -source script/build_versal.tcl -tclargs $(PROJECT_NAME) $(PROJECT_DIR)
+	$(VIVADOTCL) -log $(LOG_DIR)/build_versal.log -journal $(LOG_DIR)/build_versal.jou \
+		-source $(SCRIPT_DIR)/build_versal.tcl -tclargs $(ROOT_DIR) $(PROJECT_NAME) $(PROJECT_DIR)
 
 # for Debug
 #-------------------
