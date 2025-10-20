@@ -42,10 +42,16 @@ add_files -norecurse ${root_dir}/constraints/sc-obc-v1-versal-io-basic.xdc
 # Place and Route TOP Module
 #---------------------------
 # Synthesis
+if {[get_runs -quiet synth_1] != ""} {
+    reset_runs synth_1
+}
 launch_runs synth_1 -jobs ${cpus}
 wait_on_run synth_1
 
 # Place and Route
+if {[get_runs -quiet impl_1] != ""} {
+    reset_runs impl_1
+}
 launch_runs impl_1 -jobs ${cpus}
 wait_on_run impl_1
 
