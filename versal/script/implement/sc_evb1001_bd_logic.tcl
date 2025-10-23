@@ -16,3 +16,164 @@
 # Space Cubics OBC Module V1 Evaluation Board (EVB1001)
 # Board-specific block design setup script
 #-----------------------------------------------------------------------------
+
+# Default Serial Console for APU/RPU
+set_property -dict [list \
+  CONFIG.PS_PMC_CONFIG { \
+    PS_UART0_PERIPHERAL { \
+      {ENABLE 1} \
+      {IO {PS_MIO 0 .. 1}} \
+    } \
+  } \
+] [get_bd_cells versal_ps]
+
+set_property -dict [list \
+  CONFIG.PS_PMC_CONFIG { \
+    PS_UART1_PERIPHERAL { \
+      {ENABLE 1} \
+      {IO {PS_MIO 4 .. 5}} \
+    } \
+  } \
+] [get_bd_cells versal_ps]
+
+# EtherMAC1 with MDIO
+set_property -dict [list \
+  CONFIG.PS_PMC_CONFIG { \
+    PS_ENET1_MDIO { \
+      {ENABLE 1} \
+      {IO {PS_MIO 24 .. 25}} \
+    } \
+    PS_ENET1_PERIPHERAL { \
+      {ENABLE 1} \
+      {IO {PS_MIO 12 .. 23}} \
+    } \
+  } \
+] [get_bd_cells versal_ps]
+
+# SD3.0 Card
+set_property -dict [list \
+  CONFIG.PS_PMC_CONFIG { \
+    PMC_SD0_SLOT_TYPE {SD 3.0} \
+    PMC_SD0 { \
+      {CD_ENABLE 1}    {CD_IO {PMC_MIO 39}} \
+      {POW_ENABLE 1}   {POW_IO {PMC_MIO 49}} \
+      {RESET_ENABLE 0} {RESET_IO {PMC_MIO 17}} \
+      {WP_ENABLE 0}    {WP_IO {PMC_MIO 25}}
+    } \
+    PMC_SD0_PERIPHERAL { \
+      {CLK_100_SDR_OTAP_DLY 0x3} \
+      {CLK_200_SDR_OTAP_DLY 0x2} \
+      {CLK_50_DDR_ITAP_DLY 0x36} \
+      {CLK_50_DDR_OTAP_DLY 0x3}  \
+      {CLK_50_SDR_ITAP_DLY 0x2C} \
+      {CLK_50_SDR_OTAP_DLY 0x4}  \
+      {ENABLE 1} {IO {PMC_MIO 37 .. 49}}
+    } \
+  } \
+] [get_bd_cells versal_ps]
+
+# USB2.0 (ULPI)
+set_property -dict [list \
+  CONFIG.PS_PMC_CONFIG { \
+    PS_USB3_PERIPHERAL { \
+      {ENABLE 1} \
+      {IO {PMC_MIO 13 .. 25}} \
+    } \
+  } \
+] [get_bd_cells versal_ps]
+
+# GPIO
+set_property -dict [list \
+  CONFIG.PS_PMC_CONFIG { \
+    PS_MIO2 { \
+      {AUX_IO 0} \
+      {DIRECTION inout} \
+      {DRIVE_STRENGTH 4mA} \
+      {OUTPUT_DATA default} \
+      {PULL pulldown} \
+      {SCHMITT 0} \
+      {SLEW slow} \
+      {USAGE GPIO} \
+    } \
+    PS_MIO2 { \
+      {AUX_IO 0} \
+      {DIRECTION inout} \
+      {DRIVE_STRENGTH 4mA} \
+      {OUTPUT_DATA default} \
+      {PULL pulldown} \
+      {SCHMITT 0} \
+      {SLEW slow} \
+      {USAGE GPIO} \
+    } \
+    PS_MIO3 { \
+      {AUX_IO 0} \
+      {DIRECTION inout} \
+      {DRIVE_STRENGTH 4mA} \
+      {OUTPUT_DATA default} \
+      {PULL pulldown} \
+      {SCHMITT 0} \
+      {SLEW slow} \
+      {USAGE GPIO} \
+    } \
+    PS_MIO6 { \
+      {AUX_IO 0} \
+      {DIRECTION inout} \
+      {DRIVE_STRENGTH 4mA} \
+      {OUTPUT_DATA default} \
+      {PULL pulldown} \
+      {SCHMITT 0} \
+      {SLEW slow} \
+      {USAGE GPIO} \
+    } \
+    PS_MIO7 { \
+      {AUX_IO 0} \
+      {DIRECTION inout} \
+      {DRIVE_STRENGTH 4mA} \
+      {OUTPUT_DATA default} \
+      {PULL pulldown} \
+      {SCHMITT 0} \
+      {SLEW slow} \
+      {USAGE GPIO} \
+    } \
+    PS_MIO8 { \
+      {AUX_IO 0} \
+      {DIRECTION inout} \
+      {DRIVE_STRENGTH 4mA} \
+      {OUTPUT_DATA default} \
+      {PULL pulldown} \
+      {SCHMITT 0} \
+      {SLEW slow} \
+      {USAGE GPIO} \
+    } \
+    PS_MIO9 { \
+      {AUX_IO 0} \
+      {DIRECTION inout} \
+      {DRIVE_STRENGTH 4mA} \
+      {OUTPUT_DATA default} \
+      {PULL pulldown} \
+      {SCHMITT 0} \
+      {SLEW slow} \
+      {USAGE GPIO} \
+    } \
+    PS_MIO10 { \
+      {AUX_IO 0} \
+      {DIRECTION inout} \
+      {DRIVE_STRENGTH 4mA} \
+      {OUTPUT_DATA default} \
+      {PULL pulldown} \
+      {SCHMITT 0} \
+      {SLEW slow} \
+      {USAGE GPIO} \
+    } \
+    PS_MIO11 { \
+      {AUX_IO 0} \
+      {DIRECTION inout} \
+      {DRIVE_STRENGTH 4mA} \
+      {OUTPUT_DATA default} \
+      {PULL pulldown} \
+      {SCHMITT 0} \
+      {SLEW slow} \
+      {USAGE GPIO} \
+    } \
+  } \
+] [get_bd_cells versal_ps]
