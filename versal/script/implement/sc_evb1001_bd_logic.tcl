@@ -1,5 +1,5 @@
 #-----------------------------------------------------------------------------
-# Copyright 2024 Space Cubics, LLC
+# Copyright 2025 Space Cubics Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,25 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #-----------------------------------------------------------------------------
-# Set Environment
+# Space Cubics OBC Module V1 Evaluation Board (EVB1001)
+# Board-specific block design setup script
 #-----------------------------------------------------------------------------
-
-# AMD IP directory
-set ip_dir         ${root_dir}/ip
-
-# RTL directory
-set rtl_dir        ${root_dir}/rtl
-set rtl_list       ${rtl_dir}/rtl.list
-
-# Report directory
-set rptdit         ./report
-
-# Device Parameter
-set xil_part       xcve2302-sfva784-1MP-i-S
-
-# Build Machine Setting
-set cpus           8
-
-# Evaluation board
-# - Space Cubics EVB
-set sc_evb1001     yes
