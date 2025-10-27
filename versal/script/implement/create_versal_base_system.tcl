@@ -76,14 +76,7 @@ set_property -dict [list CONFIG.CONNECTIONS {MC_2 {read_bw {100} write_bw {100} 
 set_property -dict [list CONFIG.CATEGORY {ps_pmc} CONFIG.CONNECTIONS {}] [get_bd_intf_pins /versal_noc/S05_AXI]
 set_property -dict [list CONFIG.CONNECTIONS {MC_3 {read_bw {100} write_bw {100} read_avg_burst {4} write_avg_burst {4}}}] [get_bd_intf_pins /versal_noc/S05_AXI]
 
-# Platform Clock
-create_bd_cell -type ip -vlnv xilinx.com:ip:proc_sys_reset psr_sync_pl0_ref
-create_bd_cell -type inline_hdl -vlnv xilinx.com:inline_hdl:ilconstant dcm_locked_always_1
-connect_bd_net [get_bd_pins versal_ps/pl0_resetn]     [get_bd_pins psr_sync_pl0_ref/ext_reset_in]
-connect_bd_net [get_bd_pins versal_ps/pl0_ref_clk]    [get_bd_pins psr_sync_pl0_ref/slowest_sync_clk]
-connect_bd_net [get_bd_pins dcm_locked_always_1/dout] [get_bd_pins psr_sync_pl0_ref/dcm_locked]
 
-# DDR4 Bus Signals
 set DDR4 [create_bd_intf_port -mode Master -vlnv xilinx.com:interface:ddr4_rtl:1.0 DDR4]
 connect_bd_intf_net [get_bd_intf_ports DDR4] [get_bd_intf_pins versal_noc/CH0_DDR4_0]
 
@@ -102,8 +95,6 @@ assign_bd_address -target_address_space /versal_ps/PMC_NOC_AXI_0 [get_bd_addr_se
 assign_bd_address -target_address_space /versal_ps/PMC_NOC_AXI_0 [get_bd_addr_segs versal_noc/S05_AXI/C3_DDR_LOW1] -force
 
 # Platform Setup
-set_property PFM.CLOCK {pl0_ref_clk {id "0" is_default "true" proc_sys_reset "/psr_sync_pl0_ref" status "fixed" freq_hz "99999001"}} [get_bd_cells /versal_ps]
-
 set_property platform.vendor {spacecubics} [current_project]
 set_property platform.board_id ${prj_name} [current_project]
 set_property platform.name ${prj_name} [current_project]
