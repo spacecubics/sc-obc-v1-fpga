@@ -63,20 +63,12 @@ connect_bd_net [get_bd_pins versal_ps/fpd_cci_noc_axi3_clk] [get_bd_pins versal_
 connect_bd_net [get_bd_pins versal_ps/lpd_axi_noc_clk] [get_bd_pins versal_noc/aclk4]
 connect_bd_net [get_bd_pins versal_ps/pmc_axi_noc_axi0_clk] [get_bd_pins versal_noc/aclk5]
 
-set_property -dict [list CONFIG.CATEGORY {ps_cci} CONFIG.CONNECTIONS {}] [get_bd_intf_pins /versal_noc/S00_AXI]
-set_property -dict [list CONFIG.CONNECTIONS {MC_0 {read_bw {100} write_bw {100} read_avg_burst {4} write_avg_burst {4}}}] [get_bd_intf_pins /versal_noc/S00_AXI]
-set_property -dict [list CONFIG.CATEGORY {ps_cci} CONFIG.CONNECTIONS {}] [get_bd_intf_pins /versal_noc/S01_AXI]
-set_property -dict [list CONFIG.CONNECTIONS {MC_0 {read_bw {100} write_bw {100} read_avg_burst {4} write_avg_burst {4}}}] [get_bd_intf_pins /versal_noc/S01_AXI]
-set_property -dict [list CONFIG.CATEGORY {ps_cci} CONFIG.CONNECTIONS {}] [get_bd_intf_pins /versal_noc/S02_AXI]
-set_property -dict [list CONFIG.CONNECTIONS {MC_1 {read_bw {100} write_bw {100} read_avg_burst {4} write_avg_burst {4}}}] [get_bd_intf_pins /versal_noc/S02_AXI]
-set_property -dict [list CONFIG.CATEGORY {ps_cci} CONFIG.CONNECTIONS {}] [get_bd_intf_pins /versal_noc/S03_AXI]
-set_property -dict [list CONFIG.CONNECTIONS {MC_1 {read_bw {100} write_bw {100} read_avg_burst {4} write_avg_burst {4}}}] [get_bd_intf_pins /versal_noc/S03_AXI]
-set_property -dict [list CONFIG.CATEGORY {ps_rpu} CONFIG.CONNECTIONS {}] [get_bd_intf_pins /versal_noc/S04_AXI]
-set_property -dict [list CONFIG.CONNECTIONS {MC_2 {read_bw {100} write_bw {100} read_avg_burst {4} write_avg_burst {4}}}] [get_bd_intf_pins /versal_noc/S04_AXI]
-set_property -dict [list CONFIG.CATEGORY {ps_pmc} CONFIG.CONNECTIONS {}] [get_bd_intf_pins /versal_noc/S05_AXI]
-set_property -dict [list CONFIG.CONNECTIONS {MC_3 {read_bw {100} write_bw {100} read_avg_burst {4} write_avg_burst {4}}}] [get_bd_intf_pins /versal_noc/S05_AXI]
-
-
+set_property -dict [list CONFIG.CATEGORY {ps_cci} CONFIG.CONNECTIONS {MC_0 {read_bw {100} write_bw {100} read_avg_burst {4} write_avg_burst {4} initial_boot {true}}}] [get_bd_intf_pins /versal_noc/S00_AXI]
+set_property -dict [list CONFIG.CATEGORY {ps_cci} CONFIG.CONNECTIONS {MC_1 {read_bw {100} write_bw {100} read_avg_burst {4} write_avg_burst {4} initial_boot {true}}}] [get_bd_intf_pins /versal_noc/S01_AXI]
+set_property -dict [list CONFIG.CATEGORY {ps_cci} CONFIG.CONNECTIONS {MC_2 {read_bw {100} write_bw {100} read_avg_burst {4} write_avg_burst {4} initial_boot {true}}}] [get_bd_intf_pins /versal_noc/S02_AXI]
+set_property -dict [list CONFIG.CATEGORY {ps_cci} CONFIG.CONNECTIONS {MC_3 {read_bw {100} write_bw {100} read_avg_burst {4} write_avg_burst {4} initial_boot {true}}}] [get_bd_intf_pins /versal_noc/S03_AXI]
+set_property -dict [list CONFIG.CATEGORY {ps_rpu} CONFIG.CONNECTIONS {MC_0 {read_bw {100} write_bw {100} read_avg_burst {4} write_avg_burst {4} initial_boot {true}}}] [get_bd_intf_pins /versal_noc/S04_AXI]
+set_property -dict [list CONFIG.CATEGORY {ps_pmc} CONFIG.CONNECTIONS {MC_0 {read_bw {100} write_bw {100} read_avg_burst {4} write_avg_burst {4} initial_boot {true}}}] [get_bd_intf_pins /versal_noc/S05_AXI]
 set DDR4 [create_bd_intf_port -mode Master -vlnv xilinx.com:interface:ddr4_rtl:1.0 DDR4]
 connect_bd_intf_net [get_bd_intf_ports DDR4] [get_bd_intf_pins versal_noc/CH0_DDR4_0]
 
