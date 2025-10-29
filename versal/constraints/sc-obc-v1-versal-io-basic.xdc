@@ -34,7 +34,6 @@ set_property PACKAGE_PIN AG28 [get_ports {DDR4_A[13]}]
 set_property PACKAGE_PIN AA23 [get_ports {DDR4_A[14]}]
 set_property PACKAGE_PIN V22  [get_ports {DDR4_A[15]}]
 set_property PACKAGE_PIN AH23 [get_ports {DDR4_A[16]}]
-set_property PACKAGE_PIN AE14 [get_ports DDR4_ALERT_N]
 set_property PACKAGE_PIN AC23 [get_ports {DDR4_BA[0]}]
 set_property PACKAGE_PIN AE24 [get_ports {DDR4_BA[1]}]
 set_property PACKAGE_PIN AC27 [get_ports DDR4_BG]
@@ -50,7 +49,6 @@ set_property PACKAGE_PIN AG20 [get_ports {DDR4_DM_N[4]}]
 set_property PACKAGE_PIN AG17 [get_ports {DDR4_DM_N[5]}]
 set_property PACKAGE_PIN AC19 [get_ports {DDR4_DM_N[6]}]
 set_property PACKAGE_PIN AB18 [get_ports {DDR4_DM_N[7]}]
-set_property PACKAGE_PIN N28  [get_ports {DDR4_DM_N[8]}]
 set_property PACKAGE_PIN R21  [get_ports {DDR4_DQ[4]}]
 set_property PACKAGE_PIN P22  [get_ports {DDR4_DQ[7]}]
 set_property PACKAGE_PIN R22  [get_ports {DDR4_DQ[6]}]
@@ -115,14 +113,6 @@ set_property PACKAGE_PIN AB20 [get_ports {DDR4_DQ[60]}]
 set_property PACKAGE_PIN AC20 [get_ports {DDR4_DQ[63]}]
 set_property PACKAGE_PIN AC22 [get_ports {DDR4_DQ[59]}]
 set_property PACKAGE_PIN AB21 [get_ports {DDR4_DQ[62]}]
-set_property PACKAGE_PIN P27  [get_ports {DDR4_DQ[71]}]
-set_property PACKAGE_PIN R28  [get_ports {DDR4_DQ[67]}]
-set_property PACKAGE_PIN T28  [get_ports {DDR4_DQ[70]}]
-set_property PACKAGE_PIN R27  [get_ports {DDR4_DQ[68]}]
-set_property PACKAGE_PIN M27  [get_ports {DDR4_DQ[69]}]
-set_property PACKAGE_PIN L28  [get_ports {DDR4_DQ[66]}]
-set_property PACKAGE_PIN K28  [get_ports {DDR4_DQ[64]}]
-set_property PACKAGE_PIN K27  [get_ports {DDR4_DQ[65]}]
 set_property PACKAGE_PIN V21  [get_ports {DDR4_DQS_T[0]}]
 set_property PACKAGE_PIN U22  [get_ports {DDR4_DQS_C[0]}]
 set_property PACKAGE_PIN U23  [get_ports {DDR4_DQS_T[1]}]
@@ -139,10 +129,7 @@ set_property PACKAGE_PIN AD12 [get_ports {DDR4_DQS_T[6]}]
 set_property PACKAGE_PIN AD11 [get_ports {DDR4_DQS_C[6]}]
 set_property PACKAGE_PIN AB12 [get_ports {DDR4_DQS_T[7]}]
 set_property PACKAGE_PIN AC11 [get_ports {DDR4_DQS_C[7]}]
-set_property PACKAGE_PIN U27  [get_ports {DDR4_DQS_T[8]}]
-set_property PACKAGE_PIN U28  [get_ports {DDR4_DQS_C[8]}]
 set_property PACKAGE_PIN Y23  [get_ports DDR4_ODT]
-set_property PACKAGE_PIN AB23 [get_ports DDR4_PARITY]
 set_property PACKAGE_PIN AE13 [get_ports DDR4_RESET_N]
 
 set_property [get_ports {DDR4_DQ[*]}]    -dict {IOSTANDARD POD12       SLEW FAST OUTPUT_IMPEDANCE RDRV_40_40 ODT RTT_40 OFFSET_CNTRL CNTRL_NONE PRE_EMPHASIS RDRV_NONE EQUALIZATION EQ_LEVEL2}
@@ -152,11 +139,9 @@ set_property [get_ports {DDR4_DM_N[*]}]  -dict {IOSTANDARD POD12       SLEW FAST
 set_property [get_ports {DDR4_A[*]}]     -dict {IOSTANDARD SSTL12      SLEW FAST OUTPUT_IMPEDANCE RDRV_40_40            OFFSET_CNTRL CNTRL_NONE}
 set_property [get_ports {DDR4_BA[1]}]    -dict {IOSTANDARD SSTL12      SLEW FAST OUTPUT_IMPEDANCE RDRV_40_40            OFFSET_CNTRL CNTRL_NONE}
 set_property [get_ports DDR4_ACT_N]      -dict {IOSTANDARD SSTL12      SLEW FAST OUTPUT_IMPEDANCE RDRV_40_40            OFFSET_CNTRL CNTRL_NONE}
-set_property [get_ports DDR4_ALERT_N]    -dict {IOSTANDARD POD12                                             ODT RTT_40 OFFSET_CNTRL CNTRL_NONE PRE_EMPHASIS RDRV_NONE EQUALIZATION EQ_NONE}
 set_property [get_ports DDR4_BG]         -dict {IOSTANDARD SSTL12      SLEW FAST OUTPUT_IMPEDANCE RDRV_40_40            OFFSET_CNTRL CNTRL_NONE}
 set_property [get_ports DDR4_CKE]        -dict {IOSTANDARD SSTL12      SLEW FAST OUTPUT_IMPEDANCE RDRV_40_40            OFFSET_CNTRL CNTRL_NONE}
 set_property [get_ports DDR4_CK_*]       -dict {IOSTANDARD DIFF_SSTL12 SLEW FAST OUTPUT_IMPEDANCE RDRV_40_40            OFFSET_CNTRL CNTRL_NONE}
 set_property [get_ports DDR4_CS_N]       -dict {IOSTANDARD SSTL12      SLEW FAST OUTPUT_IMPEDANCE RDRV_40_40            OFFSET_CNTRL CNTRL_NONE}
 set_property [get_ports DDR4_ODT]        -dict {IOSTANDARD SSTL12      SLEW FAST OUTPUT_IMPEDANCE RDRV_40_40            OFFSET_CNTRL CNTRL_NONE}
-set_property [get_ports DDR4_PARITY]     -dict {IOSTANDARD SSTL12      SLEW FAST OUTPUT_IMPEDANCE RDRV_40_40            OFFSET_CNTRL CNTRL_NONE}
 set_property [get_ports DDR4_RESET_N]    -dict {IOSTANDARD LVCMOS12    SLEW SLOW                                                                                                              DRIVE 8}
