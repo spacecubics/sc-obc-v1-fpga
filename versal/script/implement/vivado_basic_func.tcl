@@ -24,7 +24,7 @@ proc read_rtl_from_rtllist {rtldir rtllist} {
     set fid [open ${rtllist} r]
     while {[gets $fid rtlpath] >= 0} {
         set ext [file extension $rtlpath]
-        if {$ext == ".sv"} {
+        if {$ext == ".sv" || $ext == ".svh"} {
             read_verilog -sv ${rtldir}/${rtlpath}
         } elseif {$ext == ".v"} {
             read_verilog ${rtldir}/${rtlpath}
