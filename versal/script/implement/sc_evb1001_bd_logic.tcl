@@ -17,6 +17,11 @@
 # Board-specific block design setup script
 #-----------------------------------------------------------------------------
 
+# LPD MIO VDD IO setting
+set_property CONFIG.PS_PMC_CONFIG { \
+  PS_BANK_2_IO_STANDARD {LVCMOS1.8} \
+} [get_bd_cells versal_ps]
+
 # Default Serial Console for APU/RPU
 set_property -dict [list \
   CONFIG.PS_PMC_CONFIG { \
