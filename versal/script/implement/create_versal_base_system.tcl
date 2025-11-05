@@ -94,7 +94,13 @@ set_property platform.version {1.0} [current_project]
 set_property pfm_name "spacecubics:${prj_name}:${prj_name}:1.0" [get_files -all ${prj_dir}/${prj_name}.srcs/${file_set}/bd/${bd_name}/${bd_name}.bd]
 set_property platform.uses_pr {false} [current_project]
 
-set_property CONFIG.PS_PMC_CONFIG {PS_BANK_2_IO_STANDARD {LVCMOS1.8}} [get_bd_cells versal_ps]
+if {${LPDMIO_VDDIO} == "1.8V"} {
+    set_property CONFIG.PS_PMC_CONFIG {PS_BANK_2_IO_STANDARD {LVCMOS1.8}} [get_bd_cells versal_ps]
+} elseif {${LPDMIO_VDDIO} == "2.5V"} {
+    set_property CONFIG.PS_PMC_CONFIG {PS_BANK_2_IO_STANDARD {LVCMOS2.5}} [get_bd_cells versal_ps]
+} else {
+    set_property CONFIG.PS_PMC_CONFIG {PS_BANK_2_IO_STANDARD {LVCMOS3.3}} [get_bd_cells versal_ps]
+}
 
 # Load board-specific setup for OBC Module V1 Evaluation Board
 if {${sc_evb1001} == "yes"} {

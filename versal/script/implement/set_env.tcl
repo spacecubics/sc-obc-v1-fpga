@@ -32,6 +32,10 @@ set xil_part       xcve2302-sfva784-1MP-i-S
 # Build Machine Setting
 set cpus           8
 
+# Specify LPD MIO I/O voltage level (valid options: 1.8V, 2.5V, or 3.3V)
+# This setting may be overridden depending on the selected carrier board.
+set LPDMIO_VDDIO   1.8V
+
 # Evaluation board
 # - Space Cubics EVB
 set sc_evb1001     yes
