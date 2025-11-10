@@ -26,13 +26,13 @@ module sc_obc_v1_versal (
   output DDR4_ODT,
   output DDR4_ACT_N,
   output [16:0] DDR4_A,
-  inout [7:0] DDR4_DM_N,
+  inout [8:0] DDR4_DM_N,
   output DDR4_BG,
   output [1:0] DDR4_BA,
   output DDR4_RESET_N,
-  inout [63:0] DDR4_DQ,
-  inout [7:0]DDR4_DQS_T,
-  inout [7:0]DDR4_DQS_C
+  inout [71:0] DDR4_DQ,
+  inout [8:0]DDR4_DQS_T,
+  inout [8:0]DDR4_DQS_C
 );
 
 versal_ps_bd versal_ps_bd (
