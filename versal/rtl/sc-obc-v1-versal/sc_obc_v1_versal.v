@@ -26,18 +26,21 @@ module sc_obc_v1_versal (
   output DDR4_ODT,
   output DDR4_ACT_N,
   output [16:0] DDR4_A,
+  input DDR4_ALERT_N,
   inout [8:0] DDR4_DM_N,
   output DDR4_BG,
   output [1:0] DDR4_BA,
   output DDR4_RESET_N,
   inout [71:0] DDR4_DQ,
   inout [8:0]DDR4_DQS_T,
-  inout [8:0]DDR4_DQS_C
+  inout [8:0]DDR4_DQS_C,
+  output DDR4_PARITY
 );
 
 versal_ps_bd versal_ps_bd (
   .DDR4_act_n(DDR4_ACT_N),
   .DDR4_adr(DDR4_A),
+  .DDR4_alert_n(DDR4_ALERT_N),
   .DDR4_ba(DDR4_BA),
   .DDR4_bg(DDR4_BG),
   .DDR4_ck_c(DDR4_CK_C),
@@ -49,6 +52,7 @@ versal_ps_bd versal_ps_bd (
   .DDR4_dqs_c(DDR4_DQS_C),
   .DDR4_dqs_t(DDR4_DQS_T),
   .DDR4_odt(DDR4_ODT),
+  .DDR4_par(DDR4_PARITY),
   .DDR4_reset_n(DDR4_RESET_N)
 );
 
