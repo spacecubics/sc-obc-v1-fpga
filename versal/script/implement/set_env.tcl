@@ -22,6 +22,7 @@ set ip_dir         ${root_dir}/ip
 # RTL directory
 set rtl_dir        ${root_dir}/rtl
 set rtl_list       ${rtl_dir}/rtl.list
+set user_rtl_list  ${rtl_dir}/user_rtl.list
 
 # Report directory
 set rptdit         ./report

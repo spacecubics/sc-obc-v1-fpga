@@ -20,3 +20,5 @@
 # This file serves as an entry point for users to add custom designs
 # to the Block Design.
 #-----------------------------------------------------------------------------
+
+read_rtl_from_rtllist ${rtl_dir} ${user_rtl_list}
