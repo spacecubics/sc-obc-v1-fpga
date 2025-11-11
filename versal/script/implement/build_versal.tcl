@@ -37,7 +37,7 @@ source ${root_dir}/script/implement/set_env.tcl
 open_project ${prj_dir}/${prj_name}.xpr
 
 # Read IO constraints
-add_files -norecurse ${root_dir}/constraints/sc-obc-v1-versal-io-basic.xdc
+add_files -norecurse ${root_dir}/constraints/sc-obc-v1-versal-base-io.xdc
 
 # Place and Route TOP Module
 #---------------------------
