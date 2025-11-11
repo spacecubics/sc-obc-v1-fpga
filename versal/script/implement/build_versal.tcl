@@ -38,6 +38,7 @@ open_project ${prj_dir}/${prj_name}.xpr
 
 # Read IO constraints
 add_files -norecurse ${root_dir}/constraints/sc-obc-v1-versal-base-io.xdc
+add_files -norecurse ${root_dir}/constraints/sc-obc-v1-versal-user-io.xdc
 
 # Place and Route TOP Module
 #---------------------------
