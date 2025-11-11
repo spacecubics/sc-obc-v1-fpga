@@ -32,7 +32,7 @@ set prj_name [lindex ${arglist} 1]
 set prj_dir  [lindex ${arglist} 2]
 
 source ${root_dir}/script/implement/set_env.tcl
-source ${root_dir}/script/implement/vivado_basic_func.tcl
+source ${root_dir}/script/implement/vivado_tcl_utils.tcl
 
 # Open Project
 open_project ${prj_dir}/${prj_name}.xpr
