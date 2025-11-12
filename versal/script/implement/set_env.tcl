@@ -80,3 +80,6 @@ set  evb1001_gpio__lpd_mio_8         yes
 set  evb1001_gpio__lpd_mio_9         yes
 set  evb1001_gpio__lpd_mio_10        yes
 set  evb1001_gpio__lpd_mio_11        yes
+
+set  evb1001_gpio__pmc_mio_12        yes
+set  evb1001_gpio__pmc_mio_37        yes

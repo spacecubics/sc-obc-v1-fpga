@@ -472,3 +472,18 @@ if {${evb1001_gpio__lpd_mio_11} == "yes"} {
       PS_MIO11 {{USAGE GPIO} {DIRECTION inout} {DRIVE_STRENGTH 12mA} {OUTPUT_DATA default} {PULL pulldown} {SCHMITT 0} {SLEW fast}}} \
     ] [get_bd_cells versal_ps]
 }
+
+# PMC GPIO
+#-------------------------------------------------------------------
+
+if {${evb1001_gpio__pmc_mio_12} == "yes"} {
+    set_property -dict [list CONFIG.PS_PMC_CONFIG { \
+      PMC_MIO12 {{USAGE GPIO} {DIRECTION inout} {DRIVE_STRENGTH 12mA} {OUTPUT_DATA default} {PULL pulldown} {SCHMITT 0} {SLEW fast}}} \
+    ] [get_bd_cells versal_ps]
+}
+
+if {${evb1001_gpio__pmc_mio_37} == "yes"} {
+    set_property -dict [list CONFIG.PS_PMC_CONFIG { \
+      PMC_MIO37 {{USAGE GPIO} {DIRECTION inout} {DRIVE_STRENGTH 12mA} {OUTPUT_DATA default} {PULL pulldown} {SCHMITT 0} {SLEW fast}}} \
+    ] [get_bd_cells versal_ps]
+}
