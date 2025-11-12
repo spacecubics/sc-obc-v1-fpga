@@ -18,30 +18,18 @@
 #-----------------------------------------------------------------------------
 
 # LPD MIO VDD IO setting
+#-------------------------------------------------------------------
+# On the EVB1001 board, the LPD MIO voltage is fixed at 1.8V.
 set_property CONFIG.PS_PMC_CONFIG { \
   PS_BANK_2_IO_STANDARD {LVCMOS1.8} \
 } [get_bd_cells versal_ps]
 
-# Default Serial Console for APU/RPU
-set_property -dict [list \
-  CONFIG.PS_PMC_CONFIG { \
-    PS_UART0_PERIPHERAL { \
-      {ENABLE 1} \
-      {IO {PS_MIO 0 .. 1}} \
-    } \
-  } \
-] [get_bd_cells versal_ps]
-
-set_property -dict [list \
-  CONFIG.PS_PMC_CONFIG { \
-    PS_UART1_PERIPHERAL { \
-      {ENABLE 1} \
-      {IO {PS_MIO 4 .. 5}} \
-    } \
-  } \
-] [get_bd_cells versal_ps]
 
 # EtherMAC1 with MDIO
+#-------------------------------------------------------------------
+# LPD MIO[25:12] are reserved for GbEtherMAC1.
+# Among them, LPD_MIO[25:24] function as the MDIO interface for GbEtherMAC.
+
 set_property -dict [list \
   CONFIG.PS_PMC_CONFIG { \
     PS_ENET1_MDIO { \
@@ -62,6 +50,9 @@ set_property -dict [list \
 ] [get_bd_cells versal_ps]
 
 # SD3.0 Card
+#-------------------------------------------------------------------
+# PMC MIO1[49:38] are reserved for SD3.0 (microSD Slot)
+
 set_property -dict [list \
   CONFIG.PS_PMC_CONFIG { \
     PMC_SD0_SLOT_TYPE {SD 3.0} \
@@ -84,11 +75,33 @@ set_property -dict [list \
 ] [get_bd_cells versal_ps]
 
 # USB2.0 (ULPI)
+#-------------------------------------------------------------------
+# PMC MIO1[49:38] are reserved for SD3.0 (microSD Slot)
+
 set_property -dict [list \
   CONFIG.PS_PMC_CONFIG { \
     PS_USB3_PERIPHERAL { \
       {ENABLE 1} \
       {IO {PMC_MIO 13 .. 25}} \
+    } \
+  } \
+] [get_bd_cells versal_ps]
+
+# Default Serial Console for APU/RPU
+set_property -dict [list \
+  CONFIG.PS_PMC_CONFIG { \
+    PS_UART0_PERIPHERAL { \
+      {ENABLE 1} \
+      {IO {PS_MIO 0 .. 1}} \
+    } \
+  } \
+] [get_bd_cells versal_ps]
+
+set_property -dict [list \
+  CONFIG.PS_PMC_CONFIG { \
+    PS_UART1_PERIPHERAL { \
+      {ENABLE 1} \
+      {IO {PS_MIO 4 .. 5}} \
     } \
   } \
 ] [get_bd_cells versal_ps]
