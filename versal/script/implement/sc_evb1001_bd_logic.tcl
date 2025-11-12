@@ -40,12 +40,23 @@ set_property -dict [list \
       {ENABLE 1} \
       {IO {PS_MIO 12 .. 23}} \
     } \
-    PS_MIO12 {{AUX_IO 0} {DIRECTION out} {DRIVE_STRENGTH 12mA} {OUTPUT_DATA default} {PULL pullup} {SCHMITT 1} {SLEW fast} {USAGE Reserved}} \
-    PS_MIO13 {{AUX_IO 0} {DIRECTION out} {DRIVE_STRENGTH 12mA} {OUTPUT_DATA default} {PULL pullup} {SCHMITT 1} {SLEW fast} {USAGE Reserved}} \
-    PS_MIO14 {{AUX_IO 0} {DIRECTION out} {DRIVE_STRENGTH 12mA} {OUTPUT_DATA default} {PULL pullup} {SCHMITT 1} {SLEW fast} {USAGE Reserved}} \
-    PS_MIO15 {{AUX_IO 0} {DIRECTION out} {DRIVE_STRENGTH 12mA} {OUTPUT_DATA default} {PULL pullup} {SCHMITT 1} {SLEW fast} {USAGE Reserved}} \
-    PS_MIO16 {{AUX_IO 0} {DIRECTION out} {DRIVE_STRENGTH 12mA} {OUTPUT_DATA default} {PULL pullup} {SCHMITT 1} {SLEW fast} {USAGE Reserved}} \
-    PS_MIO17 {{AUX_IO 0} {DIRECTION out} {DRIVE_STRENGTH 12mA} {OUTPUT_DATA default} {PULL pullup} {SCHMITT 1} {SLEW fast} {USAGE Reserved}} \
+    PS_MIO12 {{USAGE Reserved} {DRIVE_STRENGTH 12mA} {SLEW fast} {PULL disable} {SCHMITT 0}} \
+    PS_MIO13 {{USAGE Reserved} {DRIVE_STRENGTH 12mA} {SLEW fast} {PULL disable} {SCHMITT 0}} \
+    PS_MIO14 {{USAGE Reserved} {DRIVE_STRENGTH 12mA} {SLEW fast} {PULL disable} {SCHMITT 0}} \
+    PS_MIO15 {{USAGE Reserved} {DRIVE_STRENGTH 12mA} {SLEW fast} {PULL disable} {SCHMITT 0}} \
+    PS_MIO16 {{USAGE Reserved} {DRIVE_STRENGTH 12mA} {SLEW fast} {PULL disable} {SCHMITT 0}} \
+    PS_MIO17 {{USAGE Reserved} {DRIVE_STRENGTH 12mA} {SLEW fast} {PULL disable} {SCHMITT 0}} \
+    PS_MIO16 {{USAGE Reserved} {DRIVE_STRENGTH 12mA} {SLEW fast} {PULL disable} {SCHMITT 0}} \
+    PS_MIO17 {{USAGE Reserved} {DRIVE_STRENGTH 12mA} {SLEW fast} {PULL disable} {SCHMITT 0}} \
+    PS_MIO18 {{USAGE Reserved}                                   {PULL disable} {SCHMITT 0}} \
+    PS_MIO19 {{USAGE Reserved}                                   {PULL disable} {SCHMITT 0}} \
+    PS_MIO20 {{USAGE Reserved}                                   {PULL disable} {SCHMITT 0}} \
+    PS_MIO21 {{USAGE Reserved}                                   {PULL disable} {SCHMITT 0}} \
+    PS_MIO22 {{USAGE Reserved}                                   {PULL disable} {SCHMITT 0}} \
+    PS_MIO23 {{USAGE Reserved}                                   {PULL disable} {SCHMITT 0}} \
+    \
+    PS_MIO24 {{USAGE Reserved} {DRIVE_STRENGTH 12mA} {SLEW fast} {PULL disable} {SCHMITT 0}} \
+    PS_MIO25 {{USAGE Reserved} {DRIVE_STRENGTH 12mA} {SLEW fast} {PULL disable} {SCHMITT 0}} \
   } \
 ] [get_bd_cells versal_ps]
 
@@ -71,6 +82,19 @@ set_property -dict [list \
       {CLK_50_SDR_OTAP_DLY 0x4}  \
       {ENABLE 1} {IO {PMC_MIO 37 .. 49}}
     } \
+    PMC_MIO38 {{USAGE Reserved} {DRIVE_STRENGTH 12mA} {SLEW fast} {PULL disable} {SCHMITT 0}} \
+    PMC_MIO39 {{USAGE Reserved}                                   {PULL disable} {SCHMITT 0}} \
+    PMC_MIO40 {{USAGE Reserved} {DRIVE_STRENGTH 12mA} {SLEW fast} {PULL disable} {SCHMITT 0}} \
+    PMC_MIO41 {{USAGE Reserved} {DRIVE_STRENGTH 12mA} {SLEW fast} {PULL disable} {SCHMITT 0}} \
+    PMC_MIO42 {{USAGE Reserved} {DRIVE_STRENGTH 12mA} {SLEW fast} {PULL disable} {SCHMITT 0}} \
+    PMC_MIO43 {{USAGE Reserved} {DRIVE_STRENGTH 12mA} {SLEW fast} {PULL disable} {SCHMITT 0}} \
+    PMC_MIO44 {{USAGE Reserved} {DRIVE_STRENGTH 12mA} {SLEW fast} {PULL disable} {SCHMITT 0}} \
+    PMC_MIO45 {{USAGE Reserved} {DRIVE_STRENGTH 12mA} {SLEW fast} {PULL disable} {SCHMITT 0}} \
+    PMC_MIO46 {{USAGE Reserved} {DRIVE_STRENGTH 12mA} {SLEW fast} {PULL disable} {SCHMITT 0}} \
+    PMC_MIO47 {{USAGE Reserved} {DRIVE_STRENGTH 12mA} {SLEW fast} {PULL disable} {SCHMITT 0}} \
+    PMC_MIO48 {{USAGE Reserved} {DRIVE_STRENGTH 12mA} {SLEW fast} {PULL disable} {SCHMITT 0}} \
+    PMC_MIO49 {{USAGE Reserved} {DRIVE_STRENGTH 12mA} {SLEW fast} {PULL disable} {SCHMITT 0}} \
+    PMC_MIO51 {{USAGE Reserved} {DRIVE_STRENGTH 12mA} {SLEW fast} {PULL disable} {SCHMITT 0}} \
   } \
 ] [get_bd_cells versal_ps]
 
@@ -84,6 +108,19 @@ set_property -dict [list \
       {ENABLE 1} \
       {IO {PMC_MIO 13 .. 25}} \
     } \
+    PMC_MIO13 {{USAGE Reserved} {DRIVE_STRENGTH 12mA} {SLEW fast} {PULL disable} {SCHMITT 0}} \
+    PMC_MIO14 {{USAGE Reserved} {DRIVE_STRENGTH 12mA} {SLEW fast} {PULL disable} {SCHMITT 0}} \
+    PMC_MIO15 {{USAGE Reserved} {DRIVE_STRENGTH 12mA} {SLEW fast} {PULL disable} {SCHMITT 0}} \
+    PMC_MIO16 {{USAGE Reserved} {DRIVE_STRENGTH 12mA} {SLEW fast} {PULL disable} {SCHMITT 0}} \
+    PMC_MIO17 {{USAGE Reserved} {DRIVE_STRENGTH 12mA} {SLEW fast} {PULL disable} {SCHMITT 0}} \
+    PMC_MIO18 {{USAGE Reserved}                                   {PULL disable} {SCHMITT 0}} \
+    PMC_MIO19 {{USAGE Reserved} {DRIVE_STRENGTH 12mA} {SLEW fast} {PULL disable} {SCHMITT 0}} \
+    PMC_MIO20 {{USAGE Reserved} {DRIVE_STRENGTH 12mA} {SLEW fast} {PULL disable} {SCHMITT 0}} \
+    PMC_MIO21 {{USAGE Reserved} {DRIVE_STRENGTH 12mA} {SLEW fast} {PULL disable} {SCHMITT 0}} \
+    PMC_MIO22 {{USAGE Reserved} {DRIVE_STRENGTH 12mA} {SLEW fast} {PULL disable} {SCHMITT 0}} \
+    PMC_MIO23 {{USAGE Reserved}                                   {PULL disable} {SCHMITT 0}} \
+    PMC_MIO24 {{USAGE Reserved} {DRIVE_STRENGTH 12mA} {SLEW fast} {PULL disable} {SCHMITT 0}} \
+    PMC_MIO25 {{USAGE Reserved}                                   {PULL disable} {SCHMITT 0}} \
   } \
 ] [get_bd_cells versal_ps]
 
