@@ -40,3 +40,43 @@ set LPDMIO_VDDIO   1.8V
 # Evaluation board
 # - Space Cubics EVB
 set sc_evb1001     yes
+
+set  evb1001_uart0__lpd_mio_0_1      yes
+set  evb1001_uart0__lpd_mio_8_9      no
+set  evb1001_u0hwflow__lpd_mio_2_3   no
+set  evb1001_u0hwflow__lpd_mio_10_11 no
+
+set  evb1001_uart1__lpd_mio_4_5      yes
+set  evb1001_u1hwflow__lpd_mio_6_7   no
+
+set  evb1001_canfd0__lpd_mio_2_3     no
+set  evb1001_canfd0__lpd_mio_6_7     no
+
+set  evb1001_canfd1__lpd_mio_0_1     no
+set  evb1001_canfd1__lpd_mio_4_5     no
+set  evb1001_canfd1__lpd_mio_8_9     no
+
+set  evb1001_lpdi2c0__lpd_mio_2_3    no
+set  evb1001_lpdi2c0__lpd_mio_6_7    no
+set  evb1001_lpdi2c0__lpd_mio_10_11  no
+
+set  evb1001_lpdi2c1__lpd_mio_0_1    no
+set  evb1001_lpdi2c1__lpd_mio_4_5    no
+set  evb1001_lpdi2c1__lpd_mio_8_9    no
+
+set  evb1001_spi0__lpd_mio_0_5       no
+set  evb1001_spi0__cs1               no
+set  evb1001_spi0__cs2               no
+
+set  evb1001_gpio__lpd_mio_0         no
+set  evb1001_gpio__lpd_mio_1         no
+set  evb1001_gpio__lpd_mio_2         yes
+set  evb1001_gpio__lpd_mio_3         yes
+set  evb1001_gpio__lpd_mio_4         no
+set  evb1001_gpio__lpd_mio_5         no
+set  evb1001_gpio__lpd_mio_6         yes
+set  evb1001_gpio__lpd_mio_7         yes
+set  evb1001_gpio__lpd_mio_8         yes
+set  evb1001_gpio__lpd_mio_9         yes
+set  evb1001_gpio__lpd_mio_10        yes
+set  evb1001_gpio__lpd_mio_11        yes
