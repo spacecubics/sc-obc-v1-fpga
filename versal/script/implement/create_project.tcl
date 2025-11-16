@@ -29,7 +29,7 @@ set root_dir [lindex ${arglist} 0]
 set prj_name [lindex ${arglist} 1]
 set prj_dir  [lindex ${arglist} 2]
 
-source ${root_dir}/script/implement/set_env.tcl
+source ${root_dir}/set_env.tcl
 
 # Create Project
 create_project -force ${prj_name} ${prj_dir}
