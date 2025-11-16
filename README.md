@@ -1,7 +1,43 @@
 # SC-OBC Module V1 FPGA Development Environment
 
-This repository manages the FPGA development environment for the **SC-OBC Module V1**, a high-end on-board computer in Space Cubics' *High-Extensibility and High-Reliability OBC* series.
+## Overview
 
-The SC-OBC Module V1 is built around the **AMD Versal AI Edge VE2302** as its main processor. In addition, a **Microchip IGLOO2** device is implemented as a safety processor to perform health monitoring of the main processor. The hardware is composed of radiation-tolerant devices and industrial-grade components that have been verified for high radiation resistance, ensuring a highly reliable system in space applications.
+This repository provides the FPGA development environment for the **SC-OBC Module V1**, a high-end on-board computer in Space Cubics’ product line.
 
-This repository provides development support for both the Versal and IGLOO2 platforms.
+SC-OBC Module V1 integrates the **AMD Versal AI Edge Series VE2302** as its main processor. In addition, a **Microchip IGLOO2** device is implemented as a safety processor to perform health monitoring of the main processor. The hardware is composed of radiation-tolerant devices and industrial-grade components that have been verified for high radiation resistance, ensuring high reliability in space applications.
+
+## Repository Structure
+
+```
+repo/
+ ├─ versa             # Main Processor (Versal) FPGA project
+ │   ├─ rtl/          # RTL sources
+ │   ├─ ip/           # IP core configuration files
+ │   ├─ constraints/  # XDC constraint files
+ │   └─ script/       # Build scripts
+ │
+ └─ igloo2/           # Safety Processor (IGLOO2) programming environment
+      ├─ bitstream/   # Released bitstream files
+      └─ tools/       # Tools for the Safety Processor
+```
+
+
+## Requirements
+
+### Main Processor Development
+- AMD Vivado **2025.1 or later**
+
+### Safety Processor Programming Development
+- Microchip Libero SoC **2025.1 or later** (including FlashPro Express)
+
+
+## Environment Setup and Build
+
+> [!NOTE]
+> Vivado environment setup must be completed beforehand.
+
+```sh
+git clone https://github.com/spacecubics/sc-obc-v1-fpga.git
+cd sc-obc-v1-fpga/versal
+make implement
+```
