@@ -28,6 +28,7 @@ RM    := rm -rf
 WORK_DIR      := work
 IMPLEMENT_DIR := implement
 MAKEFILE_DIR  := makefiles
+CLEAN_FILE    := vivado*.jou vivado*.log vivado*.str
 
 PHONY := all
 all: implement
@@ -44,6 +45,7 @@ implement: $(WORK_DIR)/$(IMPLEMENT_DIR)
 PHNY += clean clean_implement
 clean:
 	$(RM) $(WORK_DIR)
+	$(RM) $(CLEAN_FILE)
 
 clean_implement:
 	$(RM) $(WORK_DIR)/$(IMPLEMENT_DIR)
