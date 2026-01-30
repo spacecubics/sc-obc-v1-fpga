@@ -11,7 +11,7 @@ LOG_DIR      := ./log
 WORK_DIR     := sc_obc_spv1
 
 # Flash Programming Valiable
-IMAGE_JOB    := ../bitstream/sc_obc_spv1.job
+IMAGE_JOB    := ../bitstream/sc_obc_spv1_v0.2.0.job
 
 # Command Variables
 LIBEROCLI    := FPExpress SCRIPT
