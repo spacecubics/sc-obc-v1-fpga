@@ -73,7 +73,7 @@ set_property -dict [list \
 
 set_property -dict [list \
   CONFIG.PS_PMC_CONFIG { \
-    PMC_SD0_SLOT_TYPE {SD 3.0} \
+    PMC_SD0_SLOT_TYPE {SD 3.0 AUTODIR} \
     PMC_SD0 { \
       {CD_ENABLE 1}    {CD_IO {PMC_MIO 39}} \
       {POW_ENABLE 1}   {POW_IO {PMC_MIO 49}} \
@@ -97,9 +97,6 @@ set_property -dict [list \
     PMC_MIO43 {{USAGE Reserved} {DRIVE_STRENGTH 12mA} {SLEW fast} {PULL disable} {SCHMITT 0}} \
     PMC_MIO44 {{USAGE Reserved} {DRIVE_STRENGTH 12mA} {SLEW fast} {PULL disable} {SCHMITT 0}} \
     PMC_MIO45 {{USAGE Reserved} {DRIVE_STRENGTH 12mA} {SLEW fast} {PULL disable} {SCHMITT 0}} \
-    PMC_MIO46 {{USAGE Reserved} {DRIVE_STRENGTH 12mA} {SLEW fast} {PULL disable} {SCHMITT 0}} \
-    PMC_MIO47 {{USAGE Reserved} {DRIVE_STRENGTH 12mA} {SLEW fast} {PULL disable} {SCHMITT 0}} \
-    PMC_MIO48 {{USAGE Reserved} {DRIVE_STRENGTH 12mA} {SLEW fast} {PULL disable} {SCHMITT 0}} \
     PMC_MIO49 {{USAGE Reserved} {DRIVE_STRENGTH 12mA} {SLEW fast} {PULL disable} {SCHMITT 0}} \
     PMC_MIO51 {{USAGE Reserved} {DRIVE_STRENGTH 12mA} {SLEW fast} {PULL disable} {SCHMITT 0}} \
   } \
