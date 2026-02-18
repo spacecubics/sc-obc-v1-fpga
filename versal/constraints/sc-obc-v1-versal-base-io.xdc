@@ -145,18 +145,23 @@ set_property PACKAGE_PIN Y23  [get_ports DDR4_ODT]
 set_property PACKAGE_PIN AB23 [get_ports DDR4_PARITY]
 set_property PACKAGE_PIN AE13 [get_ports DDR4_RESET_N]
 
+# Clock Signals
+set_property [get_ports DDR4_CK_*]       -dict {IOSTANDARD DIFF_SSTL12 SLEW FAST OUTPUT_IMPEDANCE RDRV_40_40            OFFSET_CNTRL CNTRL_NONE}
+# Address and Command Signals
+set_property [get_ports {DDR4_A[*]}]     -dict {IOSTANDARD SSTL12      SLEW FAST OUTPUT_IMPEDANCE RDRV_40_40            OFFSET_CNTRL CNTRL_NONE}
+set_property [get_ports DDR4_BG]         -dict {IOSTANDARD SSTL12      SLEW FAST OUTPUT_IMPEDANCE RDRV_40_40            OFFSET_CNTRL CNTRL_NONE}
+set_property [get_ports {DDR4_BA[*]}]    -dict {IOSTANDARD SSTL12      SLEW FAST OUTPUT_IMPEDANCE RDRV_40_40            OFFSET_CNTRL CNTRL_NONE}
+set_property [get_ports DDR4_ACT_N]      -dict {IOSTANDARD SSTL12      SLEW FAST OUTPUT_IMPEDANCE RDRV_40_40            OFFSET_CNTRL CNTRL_NONE}
+set_property [get_ports DDR4_PARITY]     -dict {IOSTANDARD SSTL12      SLEW FAST OUTPUT_IMPEDANCE RDRV_40_40            OFFSET_CNTRL CNTRL_NONE}
+set_property [get_ports DDR4_RESET_N]    -dict {IOSTANDARD LVCMOS12    SLEW SLOW                                                                                                              DRIVE 8}
+# Control Signals
+set_property [get_ports DDR4_CKE]        -dict {IOSTANDARD SSTL12      SLEW FAST OUTPUT_IMPEDANCE RDRV_40_40            OFFSET_CNTRL CNTRL_NONE}
+set_property [get_ports DDR4_CS_N]       -dict {IOSTANDARD SSTL12      SLEW FAST OUTPUT_IMPEDANCE RDRV_40_40            OFFSET_CNTRL CNTRL_NONE}
+set_property [get_ports DDR4_ODT]        -dict {IOSTANDARD SSTL12      SLEW FAST OUTPUT_IMPEDANCE RDRV_40_40            OFFSET_CNTRL CNTRL_NONE}
+# Data Signals
 set_property [get_ports {DDR4_DQ[*]}]    -dict {IOSTANDARD POD12       SLEW FAST OUTPUT_IMPEDANCE RDRV_40_40 ODT RTT_40 OFFSET_CNTRL CNTRL_NONE PRE_EMPHASIS RDRV_NONE EQUALIZATION EQ_LEVEL2}
 set_property [get_ports {DDR4_DQS_T[*]}] -dict {IOSTANDARD DIFF_POD12  SLEW FAST OUTPUT_IMPEDANCE RDRV_40_40 ODT RTT_40 OFFSET_CNTRL CNTRL_NONE PRE_EMPHASIS RDRV_NONE EQUALIZATION EQ_LEVEL2}
 set_property [get_ports {DDR4_DQS_C[*]}] -dict {IOSTANDARD DIFF_POD12  SLEW FAST OUTPUT_IMPEDANCE RDRV_40_40 ODT RTT_40 OFFSET_CNTRL CNTRL_NONE PRE_EMPHASIS RDRV_NONE EQUALIZATION EQ_LEVEL2}
 set_property [get_ports {DDR4_DM_N[*]}]  -dict {IOSTANDARD POD12       SLEW FAST OUTPUT_IMPEDANCE RDRV_40_40 ODT RTT_40 OFFSET_CNTRL CNTRL_NONE PRE_EMPHASIS RDRV_NONE EQUALIZATION EQ_LEVEL2}
-set_property [get_ports {DDR4_A[*]}]     -dict {IOSTANDARD SSTL12      SLEW FAST OUTPUT_IMPEDANCE RDRV_40_40            OFFSET_CNTRL CNTRL_NONE}
-set_property [get_ports {DDR4_BA[*]}]    -dict {IOSTANDARD SSTL12      SLEW FAST OUTPUT_IMPEDANCE RDRV_40_40            OFFSET_CNTRL CNTRL_NONE}
-set_property [get_ports DDR4_ACT_N]      -dict {IOSTANDARD SSTL12      SLEW FAST OUTPUT_IMPEDANCE RDRV_40_40            OFFSET_CNTRL CNTRL_NONE}
+# Other Signals
 set_property [get_ports DDR4_ALERT_N]    -dict {IOSTANDARD POD12                                             ODT RTT_40 OFFSET_CNTRL CNTRL_NONE PRE_EMPHASIS RDRV_NONE EQUALIZATION EQ_LEVEL2}
-set_property [get_ports DDR4_BG]         -dict {IOSTANDARD SSTL12      SLEW FAST OUTPUT_IMPEDANCE RDRV_40_40            OFFSET_CNTRL CNTRL_NONE}
-set_property [get_ports DDR4_CKE]        -dict {IOSTANDARD SSTL12      SLEW FAST OUTPUT_IMPEDANCE RDRV_40_40            OFFSET_CNTRL CNTRL_NONE}
-set_property [get_ports DDR4_CK_*]       -dict {IOSTANDARD DIFF_SSTL12 SLEW FAST OUTPUT_IMPEDANCE RDRV_40_40            OFFSET_CNTRL CNTRL_NONE}
-set_property [get_ports DDR4_CS_N]       -dict {IOSTANDARD SSTL12      SLEW FAST OUTPUT_IMPEDANCE RDRV_40_40            OFFSET_CNTRL CNTRL_NONE}
-set_property [get_ports DDR4_ODT]        -dict {IOSTANDARD SSTL12      SLEW FAST OUTPUT_IMPEDANCE RDRV_40_40            OFFSET_CNTRL CNTRL_NONE}
-set_property [get_ports DDR4_PARITY]     -dict {IOSTANDARD SSTL12      SLEW FAST OUTPUT_IMPEDANCE RDRV_40_40            OFFSET_CNTRL CNTRL_NONE}
-set_property [get_ports DDR4_RESET_N]    -dict {IOSTANDARD LVCMOS12    SLEW SLOW                                                                                                              DRIVE 8}
