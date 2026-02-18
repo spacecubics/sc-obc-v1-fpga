@@ -27,8 +27,17 @@ set user_rtl_list  ${rtl_dir}/user_rtl.list
 # Report directory
 set rptdit         ./report
 
-# Device Parameter
-set xil_part       xcve2302-sfva784-1MP-i-S
+# Select the target board for this build.
+#   SPACE : SC-OBC Module V1 Space Grade
+#   DEV   : SC-OBC Module V1 Developer's Grade
+set board_grade    SPACE
+
+# Device Parameter (Do not change this setting)
+if {$board_grade == "SPACE"} {
+  set xil_part     xcve2302-sfva784-1MP-i-S
+} else {
+  set xil_part     xcve2302-sfva784-1MP-e-S
+}
 
 # Build Machine Setting
 set cpus           8
