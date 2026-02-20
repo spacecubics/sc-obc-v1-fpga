@@ -21,7 +21,7 @@
 # Check argument
 if {${argc} < 3} {
     puts "Not enough arguments."
-    puts " vivado -mode tcl -source (script) -tclargs (Root Directory) (Project Name) (Project Directory)
+    puts " vivado -mode tcl -source (script) -tclargs (Root Directory) (Project Name) (Project Directory) (Target Board Grade)"
     exit 1
 }
 set arglist ${argv}
@@ -32,6 +32,11 @@ set prj_name [lindex ${arglist} 1]
 set prj_dir  [lindex ${arglist} 2]
 
 source ${root_dir}/set_env.tcl
+
+# Overwrite Board Grade
+if {${argc} > 3} {
+    set board_grade [lindex ${arglist} 3]
+}
 
 # Open Project
 open_project ${prj_dir}/${prj_name}.xpr
