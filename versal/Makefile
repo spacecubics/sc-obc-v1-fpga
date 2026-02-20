@@ -30,9 +30,11 @@ IMPLEMENT_DIR := implement
 MAKEFILE_DIR  := makefiles
 CLEAN_FILE    := vivado*.jou vivado*.log vivado*.str
 
+VERSAL ?=
 ifeq ($(GRADE),)
 else
 	BG := GRADE=$(GRADE)
+	VP := VERSAL=$(VERSAL)
 endif
 
 PHONY := all
@@ -45,7 +47,7 @@ $(WORK_DIR)/$(IMPLEMENT_DIR):
 
 PHONY += implement
 implement: $(WORK_DIR)/$(IMPLEMENT_DIR)
-	$(CD) $(WORK_DIR)/$(IMPLEMENT_DIR) && make ROOT_DIR=$(CURDIR) $(BG)
+	$(CD) $(WORK_DIR)/$(IMPLEMENT_DIR) && make ROOT_DIR=$(CURDIR) $(BG) $(VP)
 
 PHNY += clean clean_implement
 clean:

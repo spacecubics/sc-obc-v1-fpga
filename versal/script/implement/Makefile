@@ -33,9 +33,11 @@ VIVADOTCL    := vivado -mode batch
 RM           := rm -rf
 MKDIR        := mkdir -p
 
+VERSAL ?=
 ifeq ($(GRADE),)
 else
 	BG := $(GRADE)
+	VP := $(VERSAL)
 endif
 
 # Clean File
@@ -53,7 +55,7 @@ $(PROJECT_DIR)/$(PROJECT_NAME).srcs/*/bd/versal_ps_bd/versal_ps_bd.bd:
 
 	$(VIVADOTCL) -log $(LOG_DIR)/create_project.log -journal $(LOG_DIR)/create_project.jou \
 		-source $(SCRIPT_DIR)/create_project.tcl \
-		-tclargs $(ROOT_DIR) $(PROJECT_NAME) $(PROJECT_DIR) $(BG) && echo "*" > $(PROJECT_DIR)/.gitignore
+		-tclargs $(ROOT_DIR) $(PROJECT_NAME) $(PROJECT_DIR) $(BG) $(VP) && echo "*" > $(PROJECT_DIR)/.gitignore
 	$(VIVADOTCL) -log $(LOG_DIR)/create_versal_base_system.log -journal $(LOG_DIR)/create_versal_base_system.jou \
 		-source $(SCRIPT_DIR)/create_versal_base_system.tcl -tclargs $(ROOT_DIR) $(PROJECT_NAME) $(PROJECT_DIR) $(BG)
 
