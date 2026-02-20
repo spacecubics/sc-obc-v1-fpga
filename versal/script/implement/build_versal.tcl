@@ -19,7 +19,7 @@
 #-----------------------------------------------------------------------------
 
 # Check argument
-if {${argc} < 2} {
+if {${argc} < 3} {
     puts "Not enough arguments."
     puts " vivado -mode tcl -source (script) -tclargs (Root Directory) (Project Name) (Project Directory)
     exit 1
