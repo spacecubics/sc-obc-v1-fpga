@@ -33,12 +33,13 @@ source ${root_dir}/set_env.tcl
 
 # Create Project
 create_project -force ${prj_name} ${prj_dir}
-if {[info exists xil_part]} {
-    set_property part ${xil_part} [current_project]
+
+if {$board_grade == "SPACE"} {
+    set xil_part xcve2302-sfva784-1MP-i-S
+} else {
+    set xil_part xcve2302-sfva784-1MP-e-S
 }
-if {[info exists xil_board]} {
-    set_property board_part ${xil_board} [current_project]
-}
+set_property part ${xil_part} [current_project]
 
 set_property platform.extensible false [current_project]
 

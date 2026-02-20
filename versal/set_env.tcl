@@ -32,13 +32,6 @@ set rptdit         ./report
 #   DEV   : SC-OBC Module V1 Developer's Grade
 set board_grade    SPACE
 
-# Device Parameter (Do not change this setting)
-if {$board_grade == "SPACE"} {
-  set xil_part     xcve2302-sfva784-1MP-i-S
-} else {
-  set xil_part     xcve2302-sfva784-1MP-e-S
-}
-
 # Build Machine Setting
 set cpus           8
 
