@@ -33,6 +33,11 @@ VIVADOTCL    := vivado -mode batch
 RM           := rm -rf
 MKDIR        := mkdir -p
 
+ifeq ($(GRADE),)
+else
+	BG := $(GRADE)
+endif
+
 # Clean File
 CF           := $(LOG_DIR)
 CF           += $(PROJECT_DIR)
@@ -45,16 +50,18 @@ PHONY += create_versal_ps_bd
 create_versal_ps_bd: $(PROJECT_DIR)/$(PROJECT_NAME).srcs/*/bd/versal_ps_bd/versal_ps_bd.bd
 $(PROJECT_DIR)/$(PROJECT_NAME).srcs/*/bd/versal_ps_bd/versal_ps_bd.bd:
 	$(MKDIR) $(LOG_DIR) && echo "*" > $(LOG_DIR)/.gitignore
+
 	$(VIVADOTCL) -log $(LOG_DIR)/create_project.log -journal $(LOG_DIR)/create_project.jou \
-		-source $(SCRIPT_DIR)/create_project.tcl -tclargs $(ROOT_DIR) $(PROJECT_NAME) $(PROJECT_DIR) && echo "*" > $(PROJECT_DIR)/.gitignore
+		-source $(SCRIPT_DIR)/create_project.tcl \
+		-tclargs $(ROOT_DIR) $(PROJECT_NAME) $(PROJECT_DIR) $(BG) && echo "*" > $(PROJECT_DIR)/.gitignore
 	$(VIVADOTCL) -log $(LOG_DIR)/create_versal_base_system.log -journal $(LOG_DIR)/create_versal_base_system.jou \
-		-source $(SCRIPT_DIR)/create_versal_base_system.tcl -tclargs $(ROOT_DIR) $(PROJECT_NAME) $(PROJECT_DIR)
+		-source $(SCRIPT_DIR)/create_versal_base_system.tcl -tclargs $(ROOT_DIR) $(PROJECT_NAME) $(PROJECT_DIR) $(BG)
 
 PHONY += build_versal
 build_versal: sc_obc_v1_versal.xsa
 sc_obc_v1_versal.xsa: $(PROJECT_DIR)/$(PROJECT_NAME).srcs/*/bd/versal_ps_bd/versal_ps_bd.bd
 	$(VIVADOTCL) -log $(LOG_DIR)/build_versal.log -journal $(LOG_DIR)/build_versal.jou \
-		-source $(SCRIPT_DIR)/build_versal.tcl -tclargs $(ROOT_DIR) $(PROJECT_NAME) $(PROJECT_DIR)
+		-source $(SCRIPT_DIR)/build_versal.tcl -tclargs $(ROOT_DIR) $(PROJECT_NAME) $(PROJECT_DIR) $(BG)
 
 # for Debug
 #-------------------
