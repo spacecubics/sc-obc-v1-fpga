@@ -21,7 +21,7 @@
 # Check argument
 if {${argc} < 3} {
     puts "Not enough arguments."
-    puts " vivado -mode tcl -source (script) -tclargs (Root Directory) (Project Name) (Project Directory) (Target Board Grade)"
+    puts " vivado -mode tcl -source (script) -tclargs (Root Directory) (Project Name) (Project Directory) (Target Board Grade) (Versal Part)"
     exit 1
 }
 set arglist ${argv}
@@ -36,6 +36,16 @@ source ${root_dir}/set_env.tcl
 # Overwrite Board Grade
 if {${argc} > 3} {
     set board_grade [lindex ${arglist} 3]
+}
+
+set suffix ""
+if {$board_grade != "SPACE"} {
+    set suffix _ve2302e
+    if {${argc} > 4} {
+	if {[lindex ${arglist} 4] == "VE2002"} {
+	    set suffix _ve2002e
+	}
+    }
 }
 
 # Open Project
@@ -71,8 +81,8 @@ wait_on_run impl_1
 
 # Export xsa
 set_property platform.design_intent.embedded {true} [current_project]
-write_hw_platform -fixed -include_bit -force -file ${prj_dir}/${prj_name}.xsa
-exec cp ${prj_dir}/${prj_name}.runs/impl_1/${prj_name}.pdi ${prj_dir}
+write_hw_platform -fixed -include_bit -force -file ${prj_dir}/${prj_name}${suffix}.xsa
+exec cp ${prj_dir}/${prj_name}.runs/impl_1/${prj_name}.pdi ${prj_dir}/${prj_name}${suffix}.pdi
 # Close Project
 close_project
 exit

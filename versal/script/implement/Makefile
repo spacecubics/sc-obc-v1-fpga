@@ -63,7 +63,7 @@ PHONY += build_versal
 build_versal: sc_obc_v1_versal.xsa
 sc_obc_v1_versal.xsa: $(PROJECT_DIR)/$(PROJECT_NAME).srcs/*/bd/versal_ps_bd/versal_ps_bd.bd
 	$(VIVADOTCL) -log $(LOG_DIR)/build_versal.log -journal $(LOG_DIR)/build_versal.jou \
-		-source $(SCRIPT_DIR)/build_versal.tcl -tclargs $(ROOT_DIR) $(PROJECT_NAME) $(PROJECT_DIR) $(BG)
+		-source $(SCRIPT_DIR)/build_versal.tcl -tclargs $(ROOT_DIR) $(PROJECT_NAME) $(PROJECT_DIR) $(BG) $(VP)
 
 # for Debug
 #-------------------
