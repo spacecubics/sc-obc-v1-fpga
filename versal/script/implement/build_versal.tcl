@@ -48,6 +48,21 @@ if {$board_grade != "SPACE"} {
     }
 }
 
+# Create Git Hash
+set git_hash ""
+if {![catch {exec git rev-parse --is-inside-work-tree} inside]} {
+    set git_hash "_"
+    if {$inside eq "true"} {
+        if {![catch {exec git rev-parse --short=8 HEAD} hash]} {
+            append git_hash $hash
+
+            if {[catch {exec git diff-index --quiet HEAD --}]} {
+                append git_hash "+"
+            }
+        }
+    }
+}
+
 # Open Project
 open_project ${prj_dir}/${prj_name}.xpr
 
@@ -81,8 +96,8 @@ wait_on_run impl_1
 
 # Export xsa
 set_property platform.design_intent.embedded {true} [current_project]
-write_hw_platform -fixed -include_bit -force -file ${prj_dir}/${prj_name}${suffix}.xsa
-exec cp ${prj_dir}/${prj_name}.runs/impl_1/${prj_name}.pdi ${prj_dir}/${prj_name}${suffix}.pdi
+write_hw_platform -fixed -include_bit -force -file ${prj_dir}/${prj_name}${suffix}${git_hash}.xsa
+exec cp ${prj_dir}/${prj_name}.runs/impl_1/${prj_name}.pdi ${prj_dir}/${prj_name}${suffix}${git_hash}.pdi
 # Close Project
 close_project
 exit
