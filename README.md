@@ -87,3 +87,18 @@ set board_grade    SPACE
 > However, the configurations differ in DDR4 settings and the temperature range used for timing verification in Vivado.  
 > As a result, using an image built for a different grade may lead to unstable or incorrect operation.  
 > This will not cause any physical damage to the board.
+
+## Board Configuration (set_env.tcl)
+
+Before building, you must edit `versal/set_env.tcl` to match your system.
+
+If you are developing with the Space Cubics Evaluation Board (**SC-EVB-V1001**), you can enable a configuration optimized for this carrier board by setting the `sc_evb1001` variable to `yes`.  
+This variable is set to `yes` by default.
+
+```tcl
+# Evaluation board
+# - Space Cubics EVB
+set sc_evb1001     yes
+```
+
+If you are using a user-designed carrier board, be sure to set `sc_evb1001` to `no`.
