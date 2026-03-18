@@ -47,8 +47,40 @@ repo/
 > [!NOTE]
 > Vivado environment setup must be completed beforehand.
 
+Clone the repository and move to the Versal project directory:
+
 ```sh
 git clone https://github.com/spacecubics/sc-obc-v1-fpga.git
 cd sc-obc-v1-fpga/versal
-make implement
 ```
+
+### Build Options
+
+The default build target is defined in `versal/set_env.tcl` by the `board_grade` variable:
+
+```tcl
+# Select the target board for this build.
+#   SPACE : SC-OBC Module V1 Space Grade
+#   DEV   : SC-OBC Module V1 Developer's Grade
+set board_grade    SPACE
+```
+
+- **Default (follows `board_grade` in set_env.tcl)**
+  ```sh
+  make
+  ```
+
+- **Space Grade**
+  ```sh
+  make GRADE=SPACE
+  ```
+
+- **Developer Grade**
+  ```sh
+  make GRADE=DEV
+  ```
+> [!IMPORTANT]
+> Images generated with either build option can be used on both hardware variants.  
+> However, the configurations differ in DDR4 settings and the temperature range used for timing verification in Vivado.  
+> As a result, using an image built for a different grade may lead to unstable or incorrect operation.  
+> This will not cause any physical damage to the board.
