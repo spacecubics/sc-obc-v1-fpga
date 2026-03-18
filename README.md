@@ -6,6 +6,17 @@ This repository provides the FPGA development environment for the **SC-OBC Modul
 
 SC-OBC Module V1 integrates the **AMD Versal AI Edge Series VE2302** as its main processor. In addition, a **Microchip IGLOO2** device is implemented as a safety processor to perform health monitoring of the main processor. The hardware is composed of radiation-tolerant devices and industrial-grade components that have been verified for high radiation resistance, ensuring high reliability in space applications.
 
+## Supported Hardware
+
+This repository supports the following hardware configurations.
+
+### OBC Module
+- **SC-OBC-V1001** : SC-OBC Module V1 Space Grade
+- **SC-OBC-V1D01** : SC-OBC Module V1 Developer Grade
+
+### Carrier Board
+- **SC-EVB-V1001** : SC-OBC Module V1 Evaluatio Board
+
 ## Repository Structure
 
 ```
