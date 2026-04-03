@@ -29,7 +29,7 @@ set rptdit         ./report
 
 # Select the target board for this build.
 #   SPACE : SC-OBC Module V1 Space Grade
-#   DEV   : SC-OBC Module V1 Developer's Grade
+#   DEV   : SC-OBC Module V1 Developer Grade
 set board_grade    SPACE
 
 # Build Machine Setting
