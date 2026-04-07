@@ -18,7 +18,7 @@ This repository supports the following hardware configurations.
 - **SC-OBC-V1D01** : SC-OBC Module V1 Developer Grade
 
 ### Carrier Board
-- **SC-EVB-V1001** : SC-OBC Module V1 Evaluatio Board
+- **SC-EVB-V1001** : SC-OBC Module V1 Evaluation Board
 
 ## Repository Structure
 
