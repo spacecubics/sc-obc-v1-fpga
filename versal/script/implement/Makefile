@@ -22,7 +22,7 @@
 PROJECT_NAME := sc_obc_v1_versal
 PROJECT_DIR  := project
 
-# Directorys
+# Directories
 ROOT_DIR     ?= ../..
 SCRIPT_DIR   := $(ROOT_DIR)/script/implement
 LOG_DIR      := ./log

@@ -10,7 +10,7 @@ SCRIPT_DIR   := script
 LOG_DIR      := ./log
 WORK_DIR     := sc_obc_spv1
 
-# Flash Programming Valiable
+# Flash Programming Variable
 IMAGE_JOB    := ../bitstream/sc_obc_spv1_v0.3.0.job
 
 # Command Variables
