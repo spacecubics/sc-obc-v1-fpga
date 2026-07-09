@@ -129,7 +129,7 @@ launch_runs ${ip_run} -jobs ${cpus}
 wait_on_run ${ip_run}
 
 # Load RTL source code
-read_rtl_from_rtllist ${rtl_dir} ${rtl_list}
+read_rtl_from_rtllist ${rtl_dir} ${rtl_dir}/${rtl_list}
 set_property top ${prj_name} [current_fileset]
 
 # Close Project
