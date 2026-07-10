@@ -34,6 +34,10 @@ set prj_dir  [lindex ${arglist} 2]
 source ${root_dir}/set_env.tcl
 source ${root_dir}/script/implement/vivado_tcl_utils.tcl
 
+if {$prj_name != "sc_obc_v1_versal"} {
+    set rtl_dir ${rtl_dir}/compatible_boards
+}
+
 # Overwrite Board Grade
 if {${argc} > 3} {
     set board_grade [lindex ${arglist} 3]
