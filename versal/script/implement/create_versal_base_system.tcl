@@ -123,13 +123,13 @@ if {$prj_name != "sc_obc_v1_versal"} {
     if {[file exists ${root_dir}/script/implement/compatible_boards/${prj_name}-update-bd.tcl]} {
         source ${root_dir}/script/implement/compatible_boards/${prj_name}-update-bd.tcl
     }
-}
+} else {
 # Load board-specific setup for OBC Module V1 Evaluation Board
-if {${sc_evb1001} == "yes"} {
-    source ${root_dir}/script/implement/sc_evb1001_bd_logic.tcl
+    if {${sc_evb1001} == "yes"} {
+        source ${root_dir}/script/implement/sc_evb1001_bd_logic.tcl
+    }
+    source ${root_dir}/script/implement/user_bd_logic.tcl
 }
-
-source ${root_dir}/script/implement/user_bd_logic.tcl
 
 # Save block design
 save_bd_design
