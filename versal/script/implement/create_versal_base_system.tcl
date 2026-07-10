@@ -58,9 +58,9 @@ add_bd_cell ${ip_dir} versal_ps  versal_ps.config  versal_ps
 
 # Versal NoC
 if {$board_grade == "SPACE"} {
-  add_bd_cell ${ip_dir} versal_noc versal_noc.config versal_noc
+    add_bd_cell ${ip_dir} versal_noc ${prj_name}-noc.config versal_noc
 } else {
-  add_bd_cell ${ip_dir} versal_noc versal_noc_dev.config versal_noc
+    add_bd_cell ${ip_dir} versal_noc ${prj_name}-noc-dev.config versal_noc
 }
 connect_bd_intf_net [get_bd_intf_pins versal_ps/FPD_CCI_NOC_0] [get_bd_intf_pins versal_noc/S00_AXI]
 connect_bd_intf_net [get_bd_intf_pins versal_ps/FPD_CCI_NOC_1] [get_bd_intf_pins versal_noc/S01_AXI]
