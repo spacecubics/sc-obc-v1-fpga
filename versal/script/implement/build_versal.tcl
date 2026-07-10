@@ -31,6 +31,11 @@ set root_dir [lindex ${arglist} 0]
 set prj_name [lindex ${arglist} 1]
 set prj_dir  [lindex ${arglist} 2]
 
+if {$prj_name == "sc_obc_v1_versal"} {
+    set constraints_dir constraints
+} else {
+    set constraints_dir constraints/compatible_boards
+}
 source ${root_dir}/set_env.tcl
 
 # Overwrite Board Grade
@@ -68,9 +73,9 @@ open_project ${prj_dir}/${prj_name}.xpr
 
 # Read IO constraints
 if {$board_grade == "SPACE"} {
-    add_files -norecurse ${root_dir}/constraints/${prj_name}-base-io.xdc
+    add_files -norecurse ${root_dir}/${constraints_dir}/${prj_name}-base-io.xdc
 } else {
-    add_files -norecurse ${root_dir}/constraints/${prj_name}-base-io-dev.xdc
+    add_files -norecurse ${root_dir}/${constraints_dir}/${prj_name}-base-io-dev.xdc
 }
 add_files -norecurse ${root_dir}/constraints/sc-obc-v1-versal-user-io.xdc
 
