@@ -68,9 +68,9 @@ open_project ${prj_dir}/${prj_name}.xpr
 
 # Read IO constraints
 if {$board_grade == "SPACE"} {
-  add_files -norecurse ${root_dir}/constraints/sc-obc-v1-versal-base-io.xdc
+    add_files -norecurse ${root_dir}/constraints/${prj_name}-base-io.xdc
 } else {
-  add_files -norecurse ${root_dir}/constraints/sc-obc-v1-versal-base-io-dev.xdc
+    add_files -norecurse ${root_dir}/constraints/${prj_name}-base-io-dev.xdc
 }
 add_files -norecurse ${root_dir}/constraints/sc-obc-v1-versal-user-io.xdc
 
