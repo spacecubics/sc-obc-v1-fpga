@@ -36,6 +36,9 @@ source ${root_dir}/script/implement/vivado_tcl_utils.tcl
 
 if {$prj_name != "sc_obc_v1_versal"} {
     set rtl_dir ${rtl_dir}/compatible_boards
+    set noc_ip_dir ${ip_dir}/compatible_boards
+} else {
+    set noc_ip_dir $ip_dir
 }
 
 # Overwrite Board Grade
@@ -58,9 +61,9 @@ add_bd_cell ${ip_dir} versal_ps  versal_ps.config  versal_ps
 
 # Versal NoC
 if {$board_grade == "SPACE"} {
-    add_bd_cell ${ip_dir} versal_noc ${prj_name}-noc.config versal_noc
+    add_bd_cell ${noc_ip_dir} versal_noc ${prj_name}-noc.config versal_noc
 } else {
-    add_bd_cell ${ip_dir} versal_noc ${prj_name}-noc-dev.config versal_noc
+    add_bd_cell ${noc_ip_dir} versal_noc ${prj_name}-noc-dev.config versal_noc
 }
 connect_bd_intf_net [get_bd_intf_pins versal_ps/FPD_CCI_NOC_0] [get_bd_intf_pins versal_noc/S00_AXI]
 connect_bd_intf_net [get_bd_intf_pins versal_ps/FPD_CCI_NOC_1] [get_bd_intf_pins versal_noc/S01_AXI]
