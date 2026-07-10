@@ -118,6 +118,12 @@ if {${LPDMIO_VDDIO} == "1.8V"} {
     set_property CONFIG.PS_PMC_CONFIG {PS_BANK_2_IO_STANDARD {LVCMOS3.3}} [get_bd_cells versal_ps]
 }
 
+# Find and run the compatible board Block Design update script.
+if {$prj_name != "sc_obc_v1_versal"} {
+    if {[file exists ${root_dir}/script/implement/compatible_boards/${prj_name}-update-bd.tcl]} {
+        source ${root_dir}/script/implement/compatible_boards/${prj_name}-update-bd.tcl
+    }
+}
 # Load board-specific setup for OBC Module V1 Evaluation Board
 if {${sc_evb1001} == "yes"} {
     source ${root_dir}/script/implement/sc_evb1001_bd_logic.tcl
