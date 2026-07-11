@@ -42,14 +42,16 @@ if {${argc} > 4} {
 # Create Project
 create_project -force ${prj_name} ${prj_dir}
 
-if {$board_grade == "SPACE"} {
-    set xil_part xcve2302-sfva784-1MP-i-S
-} else {
-    set xil_part xcve2302-sfva784-1MP-e-S
-    if {[info exists versal_part]} {
-	if {$versal_part == "VE2002"} {
-	    set xil_part xcve2002-sfva784-1MP-e-S
-	}
+if {$prj_name == "sc_obc_v1_versal"} {
+    if {$board_grade == "SPACE"} {
+        set xil_part xcve2302-sfva784-1MP-i-S
+    } else {
+        set xil_part xcve2302-sfva784-1MP-e-S
+        if {[info exists versal_part]} {
+            if {$versal_part == "VE2002"} {
+                set xil_part xcve2002-sfva784-1MP-e-S
+            }
+        }
     }
 }
 set_property part ${xil_part} [current_project]
