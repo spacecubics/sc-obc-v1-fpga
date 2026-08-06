@@ -10,6 +10,7 @@ on:
         type: string
 
 permissions:
+  actions: read
   contents: read
 
 jobs:
@@ -94,3 +95,145 @@ jobs:
           source /opt/xilinx/2025.2/Vivado/settings64.sh
 
           make GRADE="$GRADE"
+
+      - name: Collect build artifacts
+        id: artifacts
+        shell: bash
+        env:
+          GRADE: ${{ matrix.grade }}
+          SHORT_SHA: ${{ needs.prepare-build.outputs.short_sha }}
+        run: |
+          set -eu
+
+          output_dir="${GITHUB_WORKSPACE}/versal/work/implement/project"
+          staging="${RUNNER_TEMP}/fpga-${GRADE}"
+          artifact_base="sc_obc_v1_versal_${SHORT_SHA}"
+
+          if [ "$GRADE" = "DEV" ]; then
+            artifact_base="sc_obc_v1_versal_ve2302e_${SHORT_SHA}"
+          fi
+
+          if [ ! -d "$output_dir" ]; then
+            echo "::error::Output directory not found: $output_dir"
+            exit 1
+          fi
+
+          mapfile -t xsa_files < <(
+            find "$output_dir" -maxdepth 1 -type f -name '*.xsa' -print
+          )
+
+          mapfile -t pdi_files < <(
+            find "$output_dir" -maxdepth 1 -type f -name '*.pdi' -print
+          )
+
+          if (( ${#xsa_files[@]} != 1 )); then
+            echo "::error::Expected one XSA, found ${#xsa_files[@]}"
+            printf '%s\n' "${xsa_files[@]}"
+            exit 1
+          fi
+
+          if (( ${#pdi_files[@]} != 1 )); then
+            echo "::error::Expected one PDI, found ${#pdi_files[@]}"
+            printf '%s\n' "${pdi_files[@]}"
+            exit 1
+          fi
+
+          mkdir -p "$staging"
+
+          cp "${xsa_files[0]}" "$staging/${artifact_base}.xsa"
+          cp "${pdi_files[0]}" "$staging/${artifact_base}.pdi"
+
+          ls -lh "$staging"
+
+      - name: Store build artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: fpga-${{ matrix.grade }}-${{ needs.prepare-build.outputs.short_sha }}
+          path: ${{ runner.temp }}/fpga-${{ matrix.grade }}/
+          if-no-files-found: error
+          retention-days: 1
+          compression-level: 0
+
+  publish:
+    needs:
+      - prepare-build
+      - build
+
+    runs-on: ubuntu-latest
+
+    environment: fpga-publish
+
+    steps:
+      - name: Download build artifacts
+        uses: actions/download-artifact@v7
+        with:
+          pattern: fpga-*-${{ needs.prepare-build.outputs.short_sha }}
+          path: ${{ runner.temp }}/fpga-artifacts
+          merge-multiple: true
+
+      - name: Create R2 upload commands
+        id: r2
+        shell: bash
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+          REPOSITORY_NAME: ${{ github.event.repository.name }}
+          R2_BUCKET: ${{ vars.R2_BUCKET }}
+          SHA: ${{ needs.prepare-build.outputs.sha }}
+        run: |
+          set -eu
+
+          for name in CLOUDFLARE_ACCOUNT_ID R2_BUCKET; do
+            if [ -z "${!name}" ]; then
+              echo "::error::Missing required environment value: $name"
+              exit 1
+            fi
+          done
+
+          artifact_dir="${RUNNER_TEMP}/fpga-artifacts"
+          object_prefix="snapshot/${REPOSITORY_NAME}/${SHA}"
+
+          mapfile -t files < <(
+            find "$artifact_dir" -maxdepth 1 -type f \
+              \( -name '*.xsa' -o -name '*.pdi' \) -print | sort
+          )
+
+          if (( ${#files[@]} == 0 )); then
+            echo "::error::No FPGA artifacts found in $artifact_dir"
+            exit 1
+          fi
+
+          for file in "${files[@]}"; do
+            size="$(stat --format='%s' "$file")"
+
+            if (( size > 315000000 )); then
+              echo "::error::$(basename "$file") exceeds Wrangler's 315 MB upload limit"
+              exit 1
+            fi
+          done
+
+          {
+            echo "commands<<EOF"
+            for file in "${files[@]}"; do
+              filename="$(basename "$file")"
+              object_path="${R2_BUCKET}/${object_prefix}/${filename}"
+
+              printf 'r2 object put %s --file %s --content-type application/octet-stream --remote\n' \
+                "$object_path" \
+                "$file"
+            done
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+          for file in "${files[@]}"; do
+            filename="$(basename "$file")"
+            object_path="${R2_BUCKET}/${object_prefix}/${filename}"
+
+            echo "Uploading $filename to r2://$object_path"
+          done
+
+      - name: Publish build artifacts
+        uses: cloudflare/wrangler-action@v4
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+          command: ${{ steps.r2.outputs.commands }}
