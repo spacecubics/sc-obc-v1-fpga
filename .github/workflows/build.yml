@@ -1,0 +1,96 @@
+name: Build FPGA images
+
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: Branch, tag, or commit hash to build
+        required: true
+        default: main
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  prepare-build:
+    runs-on: ubuntu-latest
+
+    outputs:
+      sha: ${{ steps.source.outputs.sha }}
+      short_sha: ${{ steps.source.outputs.short_sha }}
+
+    steps:
+      - name: Checkout requested source
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.ref || github.ref }}
+          fetch-depth: 1
+          lfs: true
+
+      - name: Resolve source revision
+        id: source
+        shell: bash
+        run: |
+          set -eu
+
+          sha="$(git rev-parse HEAD)"
+
+          echo "sha=$sha" >> "$GITHUB_OUTPUT"
+          echo "short_sha=${sha:0:8}" >> "$GITHUB_OUTPUT"
+
+  build:
+    needs: prepare-build
+
+    strategy:
+      fail-fast: false
+      matrix:
+        grade: [SPACE, DEV]
+
+    name: Build ${{ matrix.grade }} @ ${{ needs.prepare-build.outputs.short_sha }}
+
+    runs-on: >-
+      runs-on=${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.grade }}/runner=vivado-2025-2
+
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout source revision
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ needs.prepare-build.outputs.sha }}
+          fetch-depth: 1
+          lfs: true
+
+      - name: Check environment
+        shell: bash
+        run: |
+          set -eu
+
+          echo "CPU:"
+          nproc
+
+          echo "Memory:"
+          free -h
+
+          echo "Storage:"
+          df -h /
+
+          test -f /opt/xilinx/2025.2/Vivado/settings64.sh
+
+          source /opt/xilinx/2025.2/Vivado/settings64.sh
+
+          which vivado
+          vivado -version
+
+      - name: Build ${{ matrix.grade }}
+        working-directory: versal
+        shell: bash
+        env:
+          GRADE: ${{ matrix.grade }}
+        run: |
+          set -eu
+
+          source /opt/xilinx/2025.2/Vivado/settings64.sh
+
+          make GRADE="$GRADE"
