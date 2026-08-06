@@ -17,6 +17,11 @@ permissions:
   actions: read
   contents: read
 
+concurrency:
+  group: >-
+    fpga-build-${{ github.workflow }}-${{ github.event_name }}-${{ github.event_name == 'workflow_dispatch' && inputs.ref || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   prepare-build:
     runs-on: ubuntu-latest
