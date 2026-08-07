@@ -188,6 +188,8 @@ jobs:
       - prepare-build
       - build
 
+    if: ${{ github.event.repository.fork == false }}
+
     runs-on: ubuntu-latest
 
     environment: fpga-publish
