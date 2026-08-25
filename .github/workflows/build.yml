@@ -50,12 +50,21 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        grade: [SPACE, DEV]
+        include:
+          - id: SPACE
+            grade: SPACE
+            versal: ""
+          - id: DEV
+            grade: DEV
+            versal: ""
+          - id: DEV-VE2002
+            grade: DEV
+            versal: VE2002
 
-    name: Build ${{ matrix.grade }} @ ${{ needs.prepare-build.outputs.short_sha }}
+    name: Build ${{ matrix.id }} @ ${{ needs.prepare-build.outputs.short_sha }}
 
     runs-on: >-
-      runs-on=${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.grade }}/runner=vivado-2025-2
+      runs-on=${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.id }}/runner=vivado-2025-2
 
     timeout-minutes: 60
 
@@ -88,32 +97,43 @@ jobs:
           which vivado
           vivado -version
 
-      - name: Build ${{ matrix.grade }}
+      - name: Build ${{ matrix.id }}
         working-directory: versal
         shell: bash
         env:
           GRADE: ${{ matrix.grade }}
+          VERSAL: ${{ matrix.versal }}
         run: |
           set -eu
 
           source /opt/xilinx/2025.2/Vivado/settings64.sh
 
-          make GRADE="$GRADE"
+          make_args=(GRADE="$GRADE")
+
+          if [ -n "$VERSAL" ]; then
+            make_args+=(VERSAL="$VERSAL")
+          fi
+
+          make "${make_args[@]}"
 
       - name: Collect build artifacts
         id: artifacts
         shell: bash
         env:
+          BUILD_ID: ${{ matrix.id }}
           GRADE: ${{ matrix.grade }}
+          VERSAL: ${{ matrix.versal }}
           SHORT_SHA: ${{ needs.prepare-build.outputs.short_sha }}
         run: |
           set -eu
 
           output_dir="${GITHUB_WORKSPACE}/versal/work/implement/project"
-          staging="${RUNNER_TEMP}/fpga-${GRADE}"
+          staging="${RUNNER_TEMP}/fpga-${BUILD_ID}"
           artifact_base="sc_obc_v1_versal_${SHORT_SHA}"
 
-          if [ "$GRADE" = "DEV" ]; then
+          if [ "$GRADE" = "DEV" ] && [ "$VERSAL" = "VE2002" ]; then
+            artifact_base="sc_obc_v1_versal_ve2002e_${SHORT_SHA}"
+          elif [ "$GRADE" = "DEV" ]; then
             artifact_base="sc_obc_v1_versal_ve2302e_${SHORT_SHA}"
           fi
 
@@ -152,8 +172,8 @@ jobs:
       - name: Store build artifacts
         uses: actions/upload-artifact@v7
         with:
-          name: fpga-${{ matrix.grade }}-${{ needs.prepare-build.outputs.short_sha }}
-          path: ${{ runner.temp }}/fpga-${{ matrix.grade }}/
+          name: fpga-${{ matrix.id }}-${{ needs.prepare-build.outputs.short_sha }}
+          path: ${{ runner.temp }}/fpga-${{ matrix.id }}/
           if-no-files-found: error
           retention-days: 1
           compression-level: 0
@@ -186,6 +206,7 @@ jobs:
           REPOSITORY_NAME: ${{ github.event.repository.name }}
           R2_BUCKET: ${{ vars.R2_BUCKET }}
           R2_RELEASE_PREFIX: ${{ vars.R2_RELEASE_PREFIX || 'products/scobc-v1/releases' }}
+          R2_RELEASE_VE2002_PREFIX: ${{ vars.R2_RELEASE_VE2002_PREFIX || 'developments/scobc-v1/releases' }}
           SHA: ${{ needs.prepare-build.outputs.sha }}
         run: |
           set -eu
@@ -199,18 +220,26 @@ jobs:
 
           artifact_dir="${RUNNER_TEMP}/fpga-artifacts"
 
-          case "$EVENT_NAME:$REF_TYPE" in
-            workflow_dispatch:*)
-              object_prefix="snapshot/${REPOSITORY_NAME}/${SHA}"
-              ;;
-            push:tag)
-              object_prefix="${R2_RELEASE_PREFIX%/}/${REF_NAME}/fpga"
-              ;;
-            *)
-              echo "::error::Unsupported publish event: $EVENT_NAME ($REF_TYPE)"
-              exit 1
-              ;;
-          esac
+          object_prefix_for() {
+            local filename="$1"
+
+            case "$EVENT_NAME:$REF_TYPE" in
+              workflow_dispatch:*)
+                echo "snapshot/${REPOSITORY_NAME}/${SHA}"
+                ;;
+              push:tag)
+                if [[ "$filename" == *_ve2002e_* ]]; then
+                  echo "${R2_RELEASE_VE2002_PREFIX%/}/${REF_NAME}/fpga"
+                else
+                  echo "${R2_RELEASE_PREFIX%/}/${REF_NAME}/fpga"
+                fi
+                ;;
+              *)
+                echo "::error::Unsupported publish event: $EVENT_NAME ($REF_TYPE)" >&2
+                return 1
+                ;;
+            esac
+          }
 
           mapfile -t files < <(
             find "$artifact_dir" -maxdepth 1 -type f \
@@ -235,6 +264,7 @@ jobs:
             echo "commands<<EOF"
             for file in "${files[@]}"; do
               filename="$(basename "$file")"
+              object_prefix="$(object_prefix_for "$filename")"
               object_path="${R2_BUCKET}/${object_prefix}/${filename}"
 
               printf 'r2 object put %s --file %s --content-type application/octet-stream --remote\n' \
@@ -246,6 +276,7 @@ jobs:
 
           for file in "${files[@]}"; do
             filename="$(basename "$file")"
+            object_prefix="$(object_prefix_for "$filename")"
             object_path="${R2_BUCKET}/${object_prefix}/${filename}"
 
             echo "Uploading $filename to r2://$object_path"
