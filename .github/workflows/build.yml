@@ -81,26 +81,17 @@ jobs:
           fetch-depth: 1
           lfs: true
 
+      - name: Checkout workflow scripts
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ github.workflow_sha }}
+          path: .workflow
+          sparse-checkout: .github/scripts
+          sparse-checkout-cone-mode: false
+
       - name: Check environment
         shell: bash
-        run: |
-          set -eu
-
-          echo "CPU:"
-          nproc
-
-          echo "Memory:"
-          free -h
-
-          echo "Storage:"
-          df -h /
-
-          test -f /opt/xilinx/2025.2/Vivado/settings64.sh
-
-          source /opt/xilinx/2025.2/Vivado/settings64.sh
-
-          which vivado
-          vivado -version
+        run: "$GITHUB_WORKSPACE/.workflow/.github/scripts/check-vivado-environment.sh"
 
       - name: Build ${{ matrix.id }}
         working-directory: versal
@@ -108,18 +99,7 @@ jobs:
         env:
           GRADE: ${{ matrix.grade }}
           VERSAL: ${{ matrix.versal }}
-        run: |
-          set -eu
-
-          source /opt/xilinx/2025.2/Vivado/settings64.sh
-
-          make_args=(GRADE="$GRADE")
-
-          if [ -n "$VERSAL" ]; then
-            make_args+=(VERSAL="$VERSAL")
-          fi
-
-          make "${make_args[@]}"
+        run: "$GITHUB_WORKSPACE/.workflow/.github/scripts/build-fpga.sh"
 
       - name: Collect build artifacts
         id: artifacts
@@ -129,50 +109,7 @@ jobs:
           GRADE: ${{ matrix.grade }}
           VERSAL: ${{ matrix.versal }}
           SHORT_SHA: ${{ needs.prepare-build.outputs.short_sha }}
-        run: |
-          set -eu
-
-          output_dir="${GITHUB_WORKSPACE}/versal/work/implement/project"
-          staging="${RUNNER_TEMP}/fpga-${BUILD_ID}"
-          artifact_base="sc_obc_v1_versal_${SHORT_SHA}"
-
-          if [ "$GRADE" = "DEV" ] && [ "$VERSAL" = "VE2002" ]; then
-            artifact_base="sc_obc_v1_versal_ve2002e_${SHORT_SHA}"
-          elif [ "$GRADE" = "DEV" ]; then
-            artifact_base="sc_obc_v1_versal_ve2302e_${SHORT_SHA}"
-          fi
-
-          if [ ! -d "$output_dir" ]; then
-            echo "::error::Output directory not found: $output_dir"
-            exit 1
-          fi
-
-          mapfile -t xsa_files < <(
-            find "$output_dir" -maxdepth 1 -type f -name '*.xsa' -print
-          )
-
-          mapfile -t pdi_files < <(
-            find "$output_dir" -maxdepth 1 -type f -name '*.pdi' -print
-          )
-
-          if (( ${#xsa_files[@]} != 1 )); then
-            echo "::error::Expected one XSA, found ${#xsa_files[@]}"
-            printf '%s\n' "${xsa_files[@]}"
-            exit 1
-          fi
-
-          if (( ${#pdi_files[@]} != 1 )); then
-            echo "::error::Expected one PDI, found ${#pdi_files[@]}"
-            printf '%s\n' "${pdi_files[@]}"
-            exit 1
-          fi
-
-          mkdir -p "$staging"
-
-          cp "${xsa_files[0]}" "$staging/${artifact_base}.xsa"
-          cp "${pdi_files[0]}" "$staging/${artifact_base}.pdi"
-
-          ls -lh "$staging"
+        run: "$GITHUB_WORKSPACE/.workflow/.github/scripts/collect-fpga-artifacts.sh"
 
       - name: Store build artifacts
         uses: actions/upload-artifact@v7
@@ -195,6 +132,14 @@ jobs:
     environment: fpga-publish
 
     steps:
+      - name: Checkout workflow scripts
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ github.workflow_sha }}
+          path: .workflow
+          sparse-checkout: .github/scripts
+          sparse-checkout-cone-mode: false
+
       - name: Download build artifacts
         uses: actions/download-artifact@v7
         with:
@@ -215,79 +160,7 @@ jobs:
           R2_RELEASE_PREFIX: ${{ vars.R2_RELEASE_PREFIX || 'products/scobc-v1/releases' }}
           R2_RELEASE_VE2002_PREFIX: ${{ vars.R2_RELEASE_VE2002_PREFIX || 'developments/scobc-v1/releases' }}
           SHA: ${{ needs.prepare-build.outputs.sha }}
-        run: |
-          set -eu
-
-          for name in CLOUDFLARE_ACCOUNT_ID R2_BUCKET; do
-            if [ -z "${!name}" ]; then
-              echo "::error::Missing required environment value: $name"
-              exit 1
-            fi
-          done
-
-          artifact_dir="${RUNNER_TEMP}/fpga-artifacts"
-
-          object_prefix_for() {
-            local filename="$1"
-
-            case "$EVENT_NAME:$REF_TYPE" in
-              workflow_dispatch:*)
-                echo "snapshot/${REPOSITORY_NAME}/${SHA}"
-                ;;
-              push:tag)
-                if [[ "$filename" == *_ve2002e_* ]]; then
-                  echo "${R2_RELEASE_VE2002_PREFIX%/}/${REF_NAME}/fpga"
-                else
-                  echo "${R2_RELEASE_PREFIX%/}/${REF_NAME}/fpga"
-                fi
-                ;;
-              *)
-                echo "::error::Unsupported publish event: $EVENT_NAME ($REF_TYPE)" >&2
-                return 1
-                ;;
-            esac
-          }
-
-          mapfile -t files < <(
-            find "$artifact_dir" -maxdepth 1 -type f \
-              \( -name '*.xsa' -o -name '*.pdi' \) -print | sort
-          )
-
-          if (( ${#files[@]} == 0 )); then
-            echo "::error::No FPGA artifacts found in $artifact_dir"
-            exit 1
-          fi
-
-          for file in "${files[@]}"; do
-            size="$(stat --format='%s' "$file")"
-
-            if (( size > 315000000 )); then
-              echo "::error::$(basename "$file") exceeds Wrangler's 315 MB upload limit"
-              exit 1
-            fi
-          done
-
-          {
-            echo "commands<<EOF"
-            for file in "${files[@]}"; do
-              filename="$(basename "$file")"
-              object_prefix="$(object_prefix_for "$filename")"
-              object_path="${R2_BUCKET}/${object_prefix}/${filename}"
-
-              printf 'r2 object put %s --file %s --content-type application/octet-stream --remote\n' \
-                "$object_path" \
-                "$file"
-            done
-            echo "EOF"
-          } >> "$GITHUB_OUTPUT"
-
-          for file in "${files[@]}"; do
-            filename="$(basename "$file")"
-            object_prefix="$(object_prefix_for "$filename")"
-            object_path="${R2_BUCKET}/${object_prefix}/${filename}"
-
-            echo "Uploading $filename to r2://$object_path"
-          done
+        run: "$GITHUB_WORKSPACE/.workflow/.github/scripts/create-r2-upload-commands.sh"
 
       - name: Publish build artifacts
         uses: cloudflare/wrangler-action@v4
