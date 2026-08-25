@@ -9,6 +9,10 @@ on:
         default: main
         type: string
 
+  push:
+    tags:
+      - "*"
+
 permissions:
   actions: read
   contents: read
@@ -25,7 +29,7 @@ jobs:
       - name: Checkout requested source
         uses: actions/checkout@v7
         with:
-          ref: ${{ inputs.ref || github.ref }}
+          ref: ${{ github.event_name == 'workflow_dispatch' && inputs.ref || github.ref }}
           fetch-depth: 1
           lfs: true
 
@@ -176,8 +180,12 @@ jobs:
         shell: bash
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+          EVENT_NAME: ${{ github.event_name }}
+          REF_NAME: ${{ github.ref_name }}
+          REF_TYPE: ${{ github.ref_type }}
           REPOSITORY_NAME: ${{ github.event.repository.name }}
           R2_BUCKET: ${{ vars.R2_BUCKET }}
+          R2_RELEASE_PREFIX: ${{ vars.R2_RELEASE_PREFIX || 'products/scobc-v1/releases' }}
           SHA: ${{ needs.prepare-build.outputs.sha }}
         run: |
           set -eu
@@ -190,7 +198,19 @@ jobs:
           done
 
           artifact_dir="${RUNNER_TEMP}/fpga-artifacts"
-          object_prefix="snapshot/${REPOSITORY_NAME}/${SHA}"
+
+          case "$EVENT_NAME:$REF_TYPE" in
+            workflow_dispatch:*)
+              object_prefix="snapshot/${REPOSITORY_NAME}/${SHA}"
+              ;;
+            push:tag)
+              object_prefix="${R2_RELEASE_PREFIX%/}/${REF_NAME}/fpga"
+              ;;
+            *)
+              echo "::error::Unsupported publish event: $EVENT_NAME ($REF_TYPE)"
+              exit 1
+              ;;
+          esac
 
           mapfile -t files < <(
             find "$artifact_dir" -maxdepth 1 -type f \
