@@ -98,7 +98,6 @@ set_property -dict [list \
     PMC_MIO44 {{USAGE Reserved} {DRIVE_STRENGTH 12mA} {SLEW fast} {PULL disable} {SCHMITT 0}} \
     PMC_MIO45 {{USAGE Reserved} {DRIVE_STRENGTH 12mA} {SLEW fast} {PULL disable} {SCHMITT 0}} \
     PMC_MIO49 {{USAGE Reserved} {DRIVE_STRENGTH 12mA} {SLEW fast} {PULL disable} {SCHMITT 0}} \
-    PMC_MIO51 {{USAGE Reserved} {DRIVE_STRENGTH 12mA} {SLEW fast} {PULL disable} {SCHMITT 0}} \
   } \
 ] [get_bd_cells versal_ps]
 
