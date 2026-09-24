@@ -32,6 +32,16 @@ object_prefix_for() {
   esac
 }
 
+object_filename_for() {
+  local filename="$1"
+
+  if [[ "$filename" =~ ^(sc_obc_v1_versal(_ve2002e|_ve2302e)?)_[0-9a-f]{8}\.(pdi|xsa)$ ]]; then
+    echo "${BASH_REMATCH[1]}.${BASH_REMATCH[3]}"
+  else
+    echo "$filename"
+  fi
+}
+
 mapfile -t files < <(
   find "$artifact_dir" -maxdepth 1 -type f \
     \( -name '*.xsa' -o -name '*.pdi' \) -print | sort
@@ -56,7 +66,8 @@ done
   for file in "${files[@]}"; do
     filename="$(basename "$file")"
     object_prefix="$(object_prefix_for "$filename")"
-    object_path="${R2_BUCKET}/${object_prefix}/${filename}"
+    object_filename="$(object_filename_for "$filename")"
+    object_path="${R2_BUCKET}/${object_prefix}/${object_filename}"
 
     printf 'r2 object put %s --file %s --content-type application/octet-stream --remote\n' \
       "$object_path" \
@@ -68,7 +79,8 @@ done
 for file in "${files[@]}"; do
   filename="$(basename "$file")"
   object_prefix="$(object_prefix_for "$filename")"
-  object_path="${R2_BUCKET}/${object_prefix}/${filename}"
+  object_filename="$(object_filename_for "$filename")"
+  object_path="${R2_BUCKET}/${object_prefix}/${object_filename}"
 
   echo "Uploading $filename to r2://$object_path"
 done
