@@ -24,6 +24,8 @@ concurrency:
 
 jobs:
   prepare-build:
+    if: ${{ vars.ENABLE_BUILD_WORKFLOW == '1' }}
+
     runs-on: ubuntu-latest
 
     outputs:
